@@ -138,6 +138,29 @@ export function useAppController(container) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.tab]);
 
+  // Only open findings feed the audit screens — dismissing one (or re-running
+  // audits) refetches through the same filter, so it drops out everywhere
+  // (feed groups, PaneHeader detail title) in one state write.
+  const refetchFindings = React.useCallback(async () => {
+    const result = await usecases.audit.listFindings({ status: "open" });
+    if (result.ok) {
+      setData((d) => ({ ...d, findings: result.data.discrepancies }));
+    }
+    return result;
+  }, [usecases]);
+
+  // Audit tab: lazy-load findings the first time the user lands on the
+  // "audit" tab (via the nav bar OR the toast's "Review finding" deep link —
+  // both flip nav.tab). Ref-guarded like the otto/checkups loaders above.
+  const findingsLoadedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (nav.tab === "audit" && !findingsLoadedRef.current) {
+      findingsLoadedRef.current = true;
+      refetchFindings();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nav.tab]);
+
   const upsertFinding = React.useCallback((f) => {
     if (!f) return;
     setData((d) => ({ ...d, findings: mergeFinding(d.findings, f) }));
@@ -321,8 +344,27 @@ export function useAppController(container) {
       // The tab-entry effect above (mirrors the otto tab's oldScans loader)
       // covers "ensure oldScans loaded" once nav.tab flips to "otto" here.
       cuActivityToOtto: () => dispatchNav({ type: "CU_ACTIVITY_TO_OTTO" }),
+
+      // --- Audit tab (Task 16) ----------------------------------------------
+      auOpenFinding: (key) => dispatchNav({ type: "AU_OPEN_FINDING", key }),
+      // PATCH to "dismissed", then refetch (status:"open" filter drops it)
+      // and return to the feed. BACK is the nav machine's audit-detail exit.
+      auDismiss: async (finding) => {
+        if (!finding) return;
+        const result = await usecases.audit.setFindingStatus(finding.id, "dismissed");
+        if (result.ok) {
+          await refetchFindings();
+          dispatchNav({ type: "BACK" });
+        }
+      },
+      // Compose handoff: Office hosts get a real compose window, jsdom or a
+      // plain browser tab falls back to a mailto: URL (ComposeService seam).
+      auOpenReply: (finding) => usecases.audit.openReplyDraft(finding),
+      auRerun: () => refetchFindings(),
+      toastDismiss: () => dispatchNav({ type: "TOAST_DISMISS" }),
+      toastReview: () => dispatchNav({ type: "TOAST_REVIEW" }),
     }),
-    [usecases, otto, data, nav, refetchOrders, refetchFlows]
+    [usecases, otto, data, nav, refetchOrders, refetchFlows, refetchFindings]
   );
 
   return { nav, otto, data, actions };

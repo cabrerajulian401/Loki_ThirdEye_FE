@@ -29,6 +29,9 @@ import { CheckupSchedule } from "../screens/checkups/CheckupSchedule";
 import { CheckupEditStep } from "../screens/checkups/CheckupEditStep";
 import { CheckupAdd } from "../screens/checkups/CheckupAdd";
 import { CheckupActivity } from "../screens/checkups/CheckupActivity";
+import { AuditFeed } from "../screens/audit/AuditFeed";
+import { AuditDetail } from "../screens/audit/AuditDetail";
+import { AuditToast } from "../components/AuditToast";
 
 /* Otto overlay steps (Task 13). */
 const OTTO_OVERLAY_SCREENS = {
@@ -58,10 +61,10 @@ const CHECKUPS_SCREENS = {
   activity: CheckupActivity,
 };
 
-/* Audit tab (Task 16 replaces these), by nav.auditView. */
+/* Audit tab (Task 16), by nav.auditView. */
 const AUDIT_SCREENS = {
-  feed: () => <div>Audit feed placeholder</div>,
-  detail: () => <div>Audit detail placeholder</div>,
+  feed: AuditFeed,
+  detail: AuditDetail,
 };
 
 function renderScreen(nav, otto) {
@@ -105,6 +108,7 @@ export function App({ container }) {
       <div className="pane">
         <PaneHeader />
         <div className="pane-body">{renderScreen(nav, otto)}</div>
+        {nav.phase === "app" && nav.toastVisible && <AuditToast />}
         {showNav && <BottomNav />}
       </div>
     </AppContext.Provider>

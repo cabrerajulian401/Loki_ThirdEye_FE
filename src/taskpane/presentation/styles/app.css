@@ -33,6 +33,7 @@ button {
    Pane shell (dc.html:85-94)
    ------------------------------------------------------------------------- */
 .pane {
+  position: relative; /* anchors the absolutely-positioned audit toast */
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -2027,4 +2028,318 @@ button {
 }
 .cu-activity-footer {
   padding: 0 16px 14px;
+}
+
+/* -------------------------------------------------------------------------
+   Audit: feed (dc.html:428-448)
+   ------------------------------------------------------------------------- */
+.au-feed {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.au-feed-header {
+  padding: 16px 16px 12px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.au-feed-h1 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.au-feed-live {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #9a9a9a;
+  margin-top: 2px;
+}
+.au-on-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--ink);
+  border-radius: var(--r-pill);
+  padding: 4px 9px;
+  font: 700 9px var(--font-mono);
+}
+.au-on-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--alert);
+}
+.au-info-wrap {
+  padding: 0 16px 16px;
+}
+.au-info-card {
+  border: 1px solid var(--border-2);
+  border-radius: 9px;
+  padding: 11px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--fill);
+}
+.au-info-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+}
+.au-info-text {
+  font-size: 11.5px;
+  color: #444;
+  line-height: 1.35;
+}
+.au-recent-label {
+  padding: 0 16px 10px;
+}
+.au-groups {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.au-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.au-group-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: #9a9a9a;
+}
+.au-finding {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 12px;
+  cursor: pointer;
+}
+.au-finding-icon {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+}
+.au-finding-main {
+  flex: 1;
+  min-width: 0;
+}
+.au-finding-title {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.au-finding-sub {
+  font-size: 10.5px;
+  color: var(--text-3);
+}
+.au-badge {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font: 700 8.5px var(--font-mono);
+}
+.au-badge.is-high {
+  background: var(--ink);
+  border: none;
+  color: #fff;
+}
+.au-finding-chevron {
+  color: var(--placeholder);
+  font-size: 14px;
+}
+.au-rerun-wrap {
+  padding: 16px;
+}
+
+/* -------------------------------------------------------------------------
+   Audit: detail (dc.html:451-471)
+   ------------------------------------------------------------------------- */
+.au-detail {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.au-inthread {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: #9a9a9a;
+}
+.au-detail-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.au-evidence-label {
+  margin: 16px 0 8px;
+}
+.au-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.au-quote {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px 11px;
+}
+.au-quote-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--text-5);
+}
+.au-quote-author {
+  font-weight: 700;
+  color: #444;
+}
+.au-quote-text {
+  font-size: 11.5px;
+  color: #444;
+  line-height: 1.45;
+  margin-top: 5px;
+}
+.au-quote.is-emphasized {
+  border-color: var(--ink);
+}
+.au-quote.is-emphasized .au-quote-author {
+  color: var(--ink);
+}
+.au-quote.is-emphasized .au-quote-text {
+  color: #222;
+}
+.au-detail-spacer {
+  flex: 1;
+}
+.au-reply-label {
+  margin: 16px 0 8px;
+}
+.au-reply-helper {
+  font-size: 11px;
+  color: var(--text-3);
+  line-height: 1.45;
+  margin-bottom: 9px;
+}
+.au-compose-btn {
+  width: 100%;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  border-radius: 8px;
+  padding: 11px 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+.au-compose-btn svg {
+  flex: 0 0 auto;
+}
+.au-compose-email {
+  flex: 1;
+  min-width: 0;
+  font: 700 12.5px var(--font-ui);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.au-dismiss-btn {
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--border-input);
+  background: var(--surface);
+  color: #666;
+  font: 600 12px var(--font-ui);
+  padding: 10px;
+  border-radius: var(--r-btn);
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------
+   Audit alert toast (dc.html:475-482) — floats above the bottom nav
+   ------------------------------------------------------------------------- */
+.audit-toast {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 74px;
+  border: 1.5px solid var(--ink);
+  border-radius: 11px;
+  padding: 13px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  background: var(--surface);
+  z-index: 5;
+}
+.audit-toast-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.audit-toast-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--alert);
+  flex: 0 0 9px;
+}
+.audit-toast-label {
+  font: 700 9px var(--font-mono);
+  letter-spacing: 0.1em;
+  color: #9a9a9a;
+  flex: 1;
+}
+.audit-toast-title {
+  font-size: 14px;
+  font-weight: 800;
+  margin-top: 9px;
+}
+.audit-toast-body {
+  font-size: 11.5px;
+  color: #666;
+  line-height: 1.45;
+  margin-top: 4px;
+}
+.audit-toast-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 11px;
+}
+.audit-toast-dismiss {
+  flex: 0 0 auto;
+  border: 1px solid var(--border-input);
+  background: var(--surface);
+  color: #666;
+  font: 600 12px var(--font-ui);
+  padding: 9px 13px;
+  border-radius: var(--r-btn);
+  cursor: pointer;
+}
+.audit-toast-review {
+  flex: 1;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font: 700 12px var(--font-ui);
+  padding: 9px;
+  border-radius: var(--r-btn);
+  cursor: pointer;
 }
