@@ -36,7 +36,7 @@
 
 /**
  * @typedef {Object} EmailContextService
- * @property {() => Promise<Result>} getOpenEmail                                         // Promise<{messageId, conversationId, sender, senderEmail, subject}|null>
+ * @property {() => Promise<{messageId, conversationId, sender, senderEmail, subject}|null>} getOpenEmail
  */
 
 /**
