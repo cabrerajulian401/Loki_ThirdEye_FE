@@ -24,6 +24,11 @@ import { OttoOldList } from "../screens/otto/OttoOldList";
 import { OttoReinstruct } from "../screens/otto/OttoReinstruct";
 import { OttoOldErp } from "../screens/otto/OttoOldErp";
 import { OttoRecorded } from "../screens/otto/OttoRecorded";
+import { CheckupsList } from "../screens/checkups/CheckupsList";
+import { CheckupSchedule } from "../screens/checkups/CheckupSchedule";
+import { CheckupEditStep } from "../screens/checkups/CheckupEditStep";
+import { CheckupAdd } from "../screens/checkups/CheckupAdd";
+import { CheckupActivity } from "../screens/checkups/CheckupActivity";
 
 /* Otto overlay steps (Task 13). */
 const OTTO_OVERLAY_SCREENS = {
@@ -44,13 +49,13 @@ const OTTO_TAB_SCREENS = {
   recorded: OttoRecorded,
 };
 
-/* Check-ups tab (Task 15 replaces these), by nav.cuView. */
+/* Check-ups tab (Task 15), by nav.cuView. */
 const CHECKUPS_SCREENS = {
-  list: () => <div>Check-ups list placeholder</div>,
-  schedule: () => <div>Check-up schedule placeholder</div>,
-  editStep: () => <div>Check-up edit step placeholder</div>,
-  add: () => <div>Check-up add placeholder</div>,
-  activity: () => <div>Check-up activity placeholder</div>,
+  list: CheckupsList,
+  schedule: CheckupSchedule,
+  editStep: CheckupEditStep,
+  add: CheckupAdd,
+  activity: CheckupActivity,
 };
 
 /* Audit tab (Task 16 replaces these), by nav.auditView. */

@@ -118,6 +118,26 @@ export function useAppController(container) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.tab]);
 
+  const refetchFlows = React.useCallback(async () => {
+    const result = await usecases.checkups.listFlows();
+    if (result.ok) {
+      setData((d) => ({ ...d, flows: result.data.flows }));
+    }
+    return result;
+  }, [usecases]);
+
+  // Check-ups tab: lazy-load flows the first time the user opens the
+  // "checkups" tab — same ref-guarded pattern as the otto tab's oldScans
+  // above, so navigating away and back doesn't refetch.
+  const flowsLoadedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (nav.tab === "checkups" && !flowsLoadedRef.current) {
+      flowsLoadedRef.current = true;
+      refetchFlows();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nav.tab]);
+
   const upsertFinding = React.useCallback((f) => {
     if (!f) return;
     setData((d) => ({ ...d, findings: mergeFinding(d.findings, f) }));
@@ -258,8 +278,51 @@ export function useAppController(container) {
       // nav transition (no usecases.otto.recordScan round trip to await).
       ottoOldRecord: () => dispatchNav({ type: "OTTO_OLD_RECORD" }),
       ottoOldDone: () => dispatchNav({ type: "OTTO_OLD_DONE" }),
+
+      // --- Check-ups tab (Task 15) -----------------------------------------
+      cuOpenVendor: (index) => dispatchNav({ type: "CU_OPEN_VENDOR", index }),
+      cuOpenActivity: () => dispatchNav({ type: "CU_OPEN_ACTIVITY" }),
+      cuEditStep: (stepIndex) => dispatchNav({ type: "CU_EDIT_STEP", stepIndex }),
+      cuOpenAdd: () => dispatchNav({ type: "CU_OPEN_ADD" }),
+      cuSaveStep: async (step) => {
+        const flow = data.flows[nav.cuVendor];
+        if (!flow) return;
+        const result = await usecases.checkups.saveStep(flow.flowId, nav.editStepIdx, step);
+        if (result.ok) {
+          await refetchFlows();
+          dispatchNav({ type: "CU_SAVE_STEP" });
+        }
+      },
+      // addStep() appends a blank template step server-side and hands back
+      // its index — refetch first so `data.flows` already has the new step
+      // by the time CU_EDIT_STEP routes to the edit screen reading it.
+      cuAddStep: async () => {
+        const flow = data.flows[nav.cuVendor];
+        if (!flow) return;
+        const result = await usecases.checkups.addStep(flow.flowId);
+        if (result.ok) {
+          await refetchFlows();
+          dispatchNav({ type: "CU_EDIT_STEP", stepIndex: result.data.stepIndex });
+        }
+      },
+      cuCreate: async (input) => {
+        const result = await usecases.checkups.createFlow(input);
+        if (result.ok) {
+          await refetchFlows();
+          dispatchNav({ type: "CU_CREATED" });
+        }
+      },
+      cuToggle: async (flowId, on) => {
+        const result = await usecases.checkups.toggleFlow(flowId, on);
+        if (result.ok) {
+          await refetchFlows();
+        }
+      },
+      // The tab-entry effect above (mirrors the otto tab's oldScans loader)
+      // covers "ensure oldScans loaded" once nav.tab flips to "otto" here.
+      cuActivityToOtto: () => dispatchNav({ type: "CU_ACTIVITY_TO_OTTO" }),
     }),
-    [usecases, otto, data, refetchOrders]
+    [usecases, otto, data, nav, refetchOrders, refetchFlows]
   );
 
   return { nav, otto, data, actions };

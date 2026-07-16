@@ -1642,3 +1642,389 @@ button {
 .otto-reinstruct-spacer {
   flex: 1;
 }
+
+/* -------------------------------------------------------------------------
+   Shared contact card — schedule/activity (dc.html:31, 88) and audit
+   detail (dc.html:123) all use this same avatar + title/sub + trailing bit.
+   ------------------------------------------------------------------------- */
+.contact-card {
+  margin: 13px 16px 0;
+  border: 1px solid var(--border-2);
+  border-radius: 9px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.contact-card .avatar-row {
+  flex: 1;
+  min-width: 0;
+}
+.contact-card-dim {
+  color: var(--text-4);
+  font-weight: 500;
+}
+.contact-card-chip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink);
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  padding: 4px 7px;
+  background: var(--surface);
+  flex: 0 0 auto;
+}
+.contact-card-pill {
+  font: 600 9px var(--font-mono);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 2px 8px;
+  flex: 0 0 auto;
+}
+.contact-card-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-4);
+  flex: 0 0 auto;
+}
+
+/* -------------------------------------------------------------------------
+   Check-ups: List (dc.html:341-355)
+   ------------------------------------------------------------------------- */
+.cu-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.cu-list-header {
+  padding: 15px 16px 8px;
+}
+.cu-list-h1 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.cu-list-count {
+  margin-top: 2px;
+}
+.cu-list-add {
+  padding: 0 16px 12px;
+}
+.cu-cards {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cu-list-spacer {
+  height: 14px;
+}
+.cu-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+.cu-card.is-dim {
+  opacity: 0.6;
+}
+.cu-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cu-card-po {
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.cu-card-po.is-off {
+  color: #666;
+}
+.cu-toggle-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 600 9.5px var(--font-mono);
+  cursor: pointer;
+  color: var(--ink);
+}
+.cu-toggle-row.is-off {
+  color: var(--text-4);
+}
+.cu-card-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 9px;
+  cursor: pointer;
+}
+.cu-card-vendor {
+  color: var(--text-4);
+  font-weight: 500;
+}
+.cu-card-cadence {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #888;
+}
+
+/* -------------------------------------------------------------------------
+   Check-ups: Schedule (dc.html:29-43)
+   ------------------------------------------------------------------------- */
+.cu-schedule {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.cu-schedule-head {
+  padding: 14px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cu-schedule-h1 {
+  font-size: 13px;
+  font-weight: 800;
+}
+.cu-steps {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.cu-step {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 12px;
+}
+.cu-step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cu-step-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.cu-step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 10px var(--font-mono);
+}
+.cu-step-edit {
+  border: 1px solid var(--border-input);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 4px 9px;
+  font: 600 10.5px var(--font-ui);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.cu-step-message {
+  font-size: 11px;
+  color: #666;
+  line-height: 1.4;
+  margin-top: 7px;
+}
+.cu-step-timing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-4);
+}
+.cu-add-step-wrap {
+  padding: 12px 16px;
+}
+
+/* -------------------------------------------------------------------------
+   Check-ups: Edit step / Add (dc.html:47-61, 65-84) — shared textarea +
+   mono section-label spacing between the two screens.
+   ------------------------------------------------------------------------- */
+.cu-editstep,
+.cu-add {
+  padding: 16px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.cu-editstep .mono-label,
+.cu-add .mono-label {
+  display: block;
+  margin-bottom: 6px;
+}
+.cu-editstep-timing-label,
+.cu-add-label {
+  margin-top: 16px;
+}
+.cu-textarea {
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 11px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #222;
+  resize: none;
+  outline: none;
+  font-family: var(--font-ui);
+}
+.cu-editstep-spacer,
+.cu-add-spacer {
+  flex: 1;
+  min-height: 16px;
+}
+.cu-editstep-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 12px;
+}
+.cu-editstep-actions .btn-outline {
+  flex: 0 0 auto;
+  width: auto;
+}
+.cu-editstep-actions .btn-primary {
+  flex: 1;
+  width: auto;
+}
+.cu-add .btn-primary {
+  margin-top: 12px;
+}
+.cu-add-vendor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 10px 11px;
+}
+.cu-add-vendor-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+.cu-add-chevron {
+  color: var(--placeholder);
+  font-size: 13px;
+}
+.cu-add-contact {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  padding: 9px 11px;
+}
+.cu-add-contact-initials {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--avatar);
+  flex: 0 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 9px var(--font-ui);
+  color: #666;
+}
+.cu-add-contact-main {
+  flex: 1;
+  min-width: 0;
+}
+.cu-add-contact-name {
+  font-size: 12px;
+  font-weight: 600;
+}
+.cu-add-contact-email {
+  font-size: 10px;
+  color: var(--text-4);
+}
+
+/* -------------------------------------------------------------------------
+   Check-ups: Activity (dc.html:87-97)
+   ------------------------------------------------------------------------- */
+.cu-activity {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.cu-timeline {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.cu-timeline-item {
+  display: flex;
+  gap: 10px;
+}
+.cu-timeline-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0 0 18px;
+}
+.cu-timeline-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cu-timeline-dot.is-outline {
+  background: none;
+  border: 1.5px solid var(--ink);
+}
+.cu-timeline-line {
+  flex: 1;
+  width: 1.5px;
+  background: var(--border-2);
+  margin: 2px 0;
+}
+.cu-timeline-content {
+  padding-bottom: 16px;
+}
+.cu-timeline-title {
+  font-size: 12px;
+  font-weight: 700;
+}
+.cu-timeline-detail {
+  font-size: 10.5px;
+  color: #888;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+.cu-timeline-bubble {
+  background: var(--fill-2);
+  border-radius: 3px 10px 10px 10px;
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: #333;
+  margin-top: 5px;
+}
+.cu-timeline-timestamp {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--placeholder);
+  margin-top: 3px;
+}
+.cu-activity-footer {
+  padding: 0 16px 14px;
+}
