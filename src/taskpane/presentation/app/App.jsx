@@ -20,6 +20,10 @@ import { OttoFiles } from "../screens/otto/OttoFiles";
 import { OttoFileConfirm } from "../screens/otto/OttoFileConfirm";
 import { OttoRecording } from "../screens/otto/OttoRecording";
 import { OttoVerify } from "../screens/otto/OttoVerify";
+import { OttoOldList } from "../screens/otto/OttoOldList";
+import { OttoReinstruct } from "../screens/otto/OttoReinstruct";
+import { OttoOldErp } from "../screens/otto/OttoOldErp";
+import { OttoRecorded } from "../screens/otto/OttoRecorded";
 
 /* Otto overlay steps (Task 13). */
 const OTTO_OVERLAY_SCREENS = {
@@ -32,12 +36,12 @@ const OTTO_OVERLAY_SCREENS = {
   verify: OttoVerify,
 };
 
-/* Otto tab (Task 14 replaces these), by nav.ottoOld. */
+/* Otto tab (Task 14), by nav.ottoOld. */
 const OTTO_TAB_SCREENS = {
-  list: () => <div>Otto old-scan list placeholder</div>,
-  reinstruct: () => <div>Otto reinstruct placeholder</div>,
-  erp: () => <div>Otto old-scan erp placeholder</div>,
-  recorded: () => <div>Otto recorded placeholder</div>,
+  list: OttoOldList,
+  reinstruct: OttoReinstruct,
+  erp: OttoOldErp,
+  recorded: OttoRecorded,
 };
 
 /* Check-ups tab (Task 15 replaces these), by nav.cuView. */

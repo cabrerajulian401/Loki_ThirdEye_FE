@@ -1462,3 +1462,183 @@ button {
 .otto-recorded-spacer {
   flex: 1;
 }
+
+/* -------------------------------------------------------------------------
+   Otto tab: Old/dismissed email list (dc.html:279-290)
+   ------------------------------------------------------------------------- */
+.otto-old-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-old-list-header {
+  padding: 15px 16px 10px;
+}
+.otto-old-list-h1 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.otto-old-list-sub {
+  font-size: 12px;
+  color: var(--text-4);
+  margin-top: 3px;
+}
+.otto-old-cards {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.otto-old-card {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 12px;
+}
+.otto-old-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.otto-old-subject {
+  font-weight: 700;
+  font-size: 12.5px;
+}
+.otto-old-badge {
+  border-radius: 999px;
+  padding: 2px 8px;
+  font: 700 8.5px var(--font-mono);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.otto-old-badge.is-dismissed {
+  border: 1px solid var(--ink);
+  color: var(--ink);
+}
+.otto-old-badge.is-older {
+  border: 1px solid #cfcfcf;
+  color: #777;
+}
+.otto-old-summary {
+  font-size: 10.5px;
+  color: #777;
+  line-height: 1.4;
+  margin-top: 5px;
+}
+.otto-old-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+}
+.otto-old-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--avatar);
+  flex: 0 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 8px var(--font-ui);
+  color: #666;
+}
+.otto-old-contact-main {
+  min-width: 0;
+}
+.otto-old-contact-name {
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.otto-old-contact-email {
+  font-size: 9.5px;
+  color: var(--text-4);
+}
+.otto-old-record-btn {
+  margin-left: auto;
+  border: 1.5px solid var(--ink);
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font: 700 10.5px var(--font-ui);
+  flex: 0 0 auto;
+}
+
+/* -------------------------------------------------------------------------
+   Otto tab: Reinstruct (dc.html:292-306)
+   ------------------------------------------------------------------------- */
+.otto-reinstruct {
+  padding: 16px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-reinstruct-pill {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font: 700 9px var(--font-mono);
+}
+.otto-reinstruct-from {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  border: 1px solid var(--border-2);
+  border-radius: 9px;
+  padding: 9px 11px;
+}
+.otto-reinstruct-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--avatar);
+  flex: 0 0 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 9px var(--font-ui);
+  color: #666;
+}
+.otto-reinstruct-from-main {
+  flex: 1;
+  min-width: 0;
+}
+.otto-reinstruct-from-name {
+  font-size: 12px;
+  font-weight: 700;
+}
+.otto-reinstruct-from-company {
+  font-weight: 500;
+  color: var(--text-4);
+}
+.otto-reinstruct-from-email {
+  font-size: 10.5px;
+  color: var(--text-4);
+}
+.otto-reinstruct-from-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-4);
+}
+.otto-reinstruct-helper {
+  font-size: 11.5px;
+  color: var(--text-4);
+  line-height: 1.4;
+  margin-top: 13px;
+}
+.otto-reinstruct-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+.otto-reinstruct-spacer {
+  flex: 1;
+}

@@ -147,8 +147,10 @@ export const ottoOldEmails = [
     sender: "Maria Chen",
     senderEmail: "maria@acmesteel.com",
     initials: "MC",
+    company: "Acme Steel",
     reinstructLabel: "DISMISSED JUN 20 · RE-OPENED",
     reinstructFields: { orderNumber: "4471", shipDate: "Jul 2", unitPrice: "$42.50" },
+    sourceLabel: "Dismissed · Jun 20",
   },
   {
     id: "old-4468",
@@ -158,8 +160,10 @@ export const ottoOldEmails = [
     sender: "Jess Dunn",
     senderEmail: "jess@vancecomp.com",
     initials: "JD",
+    company: "Vance Components",
     reinstructLabel: "OLDER · RE-OPENED",
     reinstructFields: { orderNumber: "4468", vendor: "Vance Components" },
+    sourceLabel: "Older",
   },
   {
     id: "old-4459",
@@ -169,8 +173,10 @@ export const ottoOldEmails = [
     sender: "Tom Silva",
     senderEmail: "tom@orbitpack.com",
     initials: "TS",
+    company: "Orbit Packaging",
     reinstructLabel: "OLDER · RE-OPENED",
     reinstructFields: { orderNumber: "4459", vendor: "Orbit Packaging" },
+    sourceLabel: "Older",
   },
 ];
 

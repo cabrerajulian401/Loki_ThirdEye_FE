@@ -101,6 +101,23 @@ export function useAppController(container) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.phase]);
 
+  // Otto tab: lazy-load the old/dismissed email list the first time the
+  // user opens the "otto" tab (mock-only seam — spec §11.1). Guarded by a
+  // ref, same pattern as the open-email scan pre-check above, so navigating
+  // away and back doesn't refetch.
+  const oldScansLoadedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (nav.tab === "otto" && !oldScansLoadedRef.current) {
+      oldScansLoadedRef.current = true;
+      usecases.otto.listOldScans().then((result) => {
+        if (result.ok) {
+          setData((d) => ({ ...d, oldScans: result.data.scans }));
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nav.tab]);
+
   const upsertFinding = React.useCallback((f) => {
     if (!f) return;
     setData((d) => ({ ...d, findings: mergeFinding(d.findings, f) }));
@@ -227,6 +244,20 @@ export function useAppController(container) {
           dispatchOtto({ type: "RECORD_FAILED", error: result.error });
         }
       },
+
+      // --- Otto tab: old/dismissed emails (Task 14) -----------------------
+      // This flow is driven entirely by the nav machine's `ottoOld` sub-state
+      // (list/reinstruct/erp/recorded) — separate from the `otto` overlay
+      // machine above, though it reuses `otto.selectedErp`/`ottoPickErp` for
+      // its own ERP-selection screen (same shared picker, same state slot).
+      ottoOldOpen: (index) => dispatchNav({ type: "OTTO_OLD_OPEN", index }),
+      ottoOldConfirm: () => dispatchNav({ type: "OTTO_OLD_CONFIRM" }),
+      // Prototype parity: recording a dismissed/older email skips both the
+      // Excel files branch and the "recording…" timer screen — it goes
+      // straight to the recorded confirmation, so this is a plain, immediate
+      // nav transition (no usecases.otto.recordScan round trip to await).
+      ottoOldRecord: () => dispatchNav({ type: "OTTO_OLD_RECORD" }),
+      ottoOldDone: () => dispatchNav({ type: "OTTO_OLD_DONE" }),
     }),
     [usecases, otto, data, refetchOrders]
   );
