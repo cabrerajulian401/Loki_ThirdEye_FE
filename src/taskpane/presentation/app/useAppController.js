@@ -36,6 +36,20 @@ const initialData = {
   oldScans: [],
 };
 
+// Merge a live finding into `data.findings`: replace the entry with the
+// same `id` if present, falling back to a same-`type` match (findings don't
+// have a stable id until Task 16's real listFindings() loader runs — the
+// realtime path only ever has the bare `{id?, type, ...}` payload), else
+// append. Task 16's audit screens render `data.findings` directly.
+function mergeFinding(findings, f) {
+  let idx = f.id != null ? findings.findIndex((x) => x.id === f.id) : -1;
+  if (idx === -1 && f.type != null) idx = findings.findIndex((x) => x.type === f.type);
+  if (idx === -1) return [...findings, f];
+  const next = findings.slice();
+  next[idx] = { ...next[idx], ...f };
+  return next;
+}
+
 export function useAppController(container) {
   const { usecases, services } = container;
   const { storage } = services;
@@ -68,6 +82,11 @@ export function useAppController(container) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.phase]);
 
+  const upsertFinding = React.useCallback((f) => {
+    if (!f) return;
+    setData((d) => ({ ...d, findings: mergeFinding(d.findings, f) }));
+  }, []);
+
   // Wire realtime exactly once on mount.
   React.useEffect(() => {
     const patchOrder = (updated) => {
@@ -81,7 +100,12 @@ export function useAppController(container) {
     usecases.realtime.start({
       onSyncCompleted: refetchOrders,
       onOrderUpdated: patchOrder,
-      onDiscrepancyFound: (f) => dispatchNav({ type: "DISCREPANCY_FOUND", key: (f && f.type) ?? "price" }),
+      onDiscrepancyFound: (f) => {
+        // Store the finding before routing nav — PaneHeader's audit-detail
+        // title lookup and Task 16's screens both read `data.findings`.
+        upsertFinding(f);
+        dispatchNav({ type: "DISCREPANCY_FOUND", key: (f && f.type) ?? "price" });
+      },
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
