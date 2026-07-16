@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.DS_Store
+
+# Local-only docs (never pushed — see BE_Docs headers)
+BE_Docs/
+.claude/
