@@ -13,16 +13,23 @@ import { WelcomeScreen } from "../screens/onboarding/WelcomeScreen";
 import { ChecklistScreen } from "../screens/onboarding/ChecklistScreen";
 import { ConnectErpScreen } from "../screens/onboarding/ConnectErpScreen";
 import { OrdersScreen } from "../screens/orders/OrdersScreen";
+import { OttoReview } from "../screens/otto/OttoReview";
+import { OttoEdit } from "../screens/otto/OttoEdit";
+import { OttoErp } from "../screens/otto/OttoErp";
+import { OttoFiles } from "../screens/otto/OttoFiles";
+import { OttoFileConfirm } from "../screens/otto/OttoFileConfirm";
+import { OttoRecording } from "../screens/otto/OttoRecording";
+import { OttoVerify } from "../screens/otto/OttoVerify";
 
-/* Otto overlay steps (Task 13 replaces these placeholder stubs). */
+/* Otto overlay steps (Task 13). */
 const OTTO_OVERLAY_SCREENS = {
-  review: () => <div>Otto review placeholder</div>,
-  edit: () => <div>Otto edit placeholder</div>,
-  erp: () => <div>Otto erp placeholder</div>,
-  files: () => <div>Otto files placeholder</div>,
-  fileConfirm: () => <div>Otto file confirm placeholder</div>,
-  recording: () => <div>Otto recording placeholder</div>,
-  verify: () => <div>Otto verify placeholder</div>,
+  review: OttoReview,
+  edit: OttoEdit,
+  erp: OttoErp,
+  files: OttoFiles,
+  fileConfirm: OttoFileConfirm,
+  recording: OttoRecording,
+  verify: OttoVerify,
 };
 
 /* Otto tab (Task 14 replaces these), by nav.ottoOld. */

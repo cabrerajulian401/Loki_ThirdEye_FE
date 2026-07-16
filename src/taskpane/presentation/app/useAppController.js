@@ -156,8 +156,79 @@ export function useAppController(container) {
       // banner only renders once that pre-check succeeded.
       ottoReview: () => dispatchOtto({ type: "OPEN_REVIEW" }),
       retryOrders: () => refetchOrders(),
+
+      // --- Otto overlay flow (Task 13) ------------------------------------
+      ottoAsk: () => dispatchOtto({ type: "ASK" }),
+      ottoSaveEdit: () => dispatchOtto({ type: "SAVE_EDIT" }),
+      ottoConfirm: () => dispatchOtto({ type: "CONFIRM" }),
+      ottoPickErp: (erp) => dispatchOtto({ type: "PICK_ERP", erp }),
+      // Immutably patches the one field being edited on the pre-fetched scan
+      // (data.scan.extractedFields) — the edit screen's input and every
+      // downstream screen (file-confirm table, verify card) read the same
+      // `data.scan.extractedFields` object, so this is the single point of
+      // truth for "what Scout will record."
+      ottoEditField: (name, value) => {
+        setData((d) => ({
+          ...d,
+          scan: { ...d.scan, extractedFields: { ...d.scan.extractedFields, [name]: value } },
+        }));
+      },
+      // Prototype dismisses the Orders banner once verify completes, in
+      // addition to returning the otto machine to idle.
+      ottoVerifyDone: () => {
+        dispatchOtto({ type: "VERIFY_DONE" });
+        dispatchNav({ type: "OTTO_BANNER_DISMISS" });
+      },
+      // RECORD transitions the machine synchronously (to "files" for Excel,
+      // "recording" otherwise) *before* the record call resolves, so the
+      // recording screen's spinner is visible for the full duration of the
+      // mock's 1700ms delay. Only non-Excel targets record immediately here —
+      // the Excel branch waits for a destination pick (ottoPickFile ->
+      // ottoConfirmFile/ottoNewSheet below).
+      ottoRecord: async () => {
+        dispatchOtto({ type: "RECORD" });
+        if (otto.selectedErp === "Excel / Sheets") return;
+        const result = await usecases.otto.recordScan(data.scan.scanId, {
+          selectedResource: "erp:" + otto.selectedErp,
+          fields: data.scan.extractedFields,
+        });
+        if (result.ok) {
+          setData((d) => ({ ...d, recordResult: result.data }));
+          dispatchOtto({ type: "RECORD_DONE" });
+        } else {
+          dispatchOtto({ type: "RECORD_FAILED", error: result.error });
+        }
+      },
+      ottoPickFile: (index) => dispatchOtto({ type: "PICK_FILE", index }),
+      ottoNewSheet: async () => {
+        dispatchOtto({ type: "NEW_SHEET" });
+        const result = await usecases.otto.recordScan(data.scan.scanId, {
+          selectedResource: "new-sheet",
+          fields: data.scan.extractedFields,
+        });
+        if (result.ok) {
+          setData((d) => ({ ...d, recordResult: result.data }));
+          dispatchOtto({ type: "RECORD_DONE" });
+        } else {
+          dispatchOtto({ type: "RECORD_FAILED", error: result.error });
+        }
+      },
+      ottoConfirmFile: async () => {
+        dispatchOtto({ type: "CONFIRM_FILE" });
+        const destination = (data.scan.destinations || [])[otto.selectedFileIndex];
+        const result = await usecases.otto.recordScan(data.scan.scanId, {
+          selectedResource: destination && destination.id,
+          fields: data.scan.extractedFields,
+        });
+        if (result.ok) {
+          setData((d) => ({ ...d, recordResult: result.data }));
+          dispatchOtto({ type: "RECORD_DONE" });
+        } else {
+          dispatchOtto({ type: "RECORD_FAILED", error: result.error });
+        }
+      },
     }),
-    [usecases, otto, refetchOrders]
+    [usecases, otto, data, refetchOrders]
   );
 
   return { nav, otto, data, actions };

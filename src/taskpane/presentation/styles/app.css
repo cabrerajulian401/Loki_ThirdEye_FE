@@ -900,3 +900,565 @@ button {
   outline: none;
   font-family: var(--font-ui);
 }
+
+/* -------------------------------------------------------------------------
+   Otto overlay: Review (dc.html:167-181)
+   ------------------------------------------------------------------------- */
+.otto-review {
+  padding: 16px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-review-helper {
+  font-size: 11.5px;
+  color: var(--text-4);
+  line-height: 1.4;
+}
+.otto-review-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 13px;
+}
+.otto-was-pill {
+  font: 600 9px var(--font-mono);
+  border: 1px solid var(--border-input);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: #777;
+  margin-left: 4px;
+}
+.otto-review-spacer {
+  flex: 1;
+}
+.otto-review-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 12px;
+}
+.otto-review-actions .btn-outline {
+  flex: 0 0 auto;
+  width: auto;
+}
+.otto-review-actions .btn-primary {
+  flex: 1;
+  width: auto;
+}
+
+/* -------------------------------------------------------------------------
+   Otto overlay: Edit (dc.html:183-193)
+   ------------------------------------------------------------------------- */
+.otto-edit {
+  padding: 16px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-edit-bubble-row {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+}
+.otto-edit-avatar {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.otto-edit-bubble {
+  background: var(--fill-2);
+  border-radius: 3px 12px 12px 12px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.otto-edit-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+  margin: 16px 0 6px;
+}
+.otto-edit-input {
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 10px 11px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+}
+.otto-edit-helper {
+  font-size: 11px;
+  color: var(--text-4);
+  margin-top: 8px;
+}
+.otto-edit-spacer {
+  flex: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Otto overlay/tab: ERP selection (dc.html:195-208, 308-321) — shared
+   layout between OttoErp (Task 13) and OttoOldErp (Task 14).
+   ------------------------------------------------------------------------- */
+.otto-erp-screen {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-erp-h1 {
+  font-size: 16px;
+  font-weight: 800;
+}
+.otto-erp-sub {
+  font-size: 12px;
+  color: var(--text-4);
+  line-height: 1.45;
+  margin-top: 6px;
+}
+.otto-erp-sub b {
+  color: #444;
+}
+.otto-erp-picker-wrap {
+  margin-top: 20px;
+}
+.otto-erp-spacer {
+  flex: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Otto overlay: Found files (dc.html:210-230)
+   ------------------------------------------------------------------------- */
+.otto-files {
+  padding: 18px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-files-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.otto-files-badge-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: var(--excel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+}
+.otto-files-badge-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--excel);
+  font-weight: 700;
+}
+.otto-files-h1 {
+  font-size: 16px;
+  font-weight: 800;
+  margin-top: 12px;
+}
+.otto-files-sub {
+  font-size: 12px;
+  color: var(--text-4);
+  line-height: 1.45;
+  margin-top: 6px;
+}
+.otto-files-sub b {
+  color: #444;
+}
+.otto-files-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+  margin: 18px 0 8px;
+}
+.otto-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.otto-file-card {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 12px;
+  cursor: pointer;
+}
+.otto-file-card.is-best {
+  border: 1.5px solid var(--ink);
+}
+.otto-file-card-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.otto-file-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--border-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 26px;
+}
+.otto-file-icon.is-best {
+  background: var(--excel);
+  border-color: var(--excel);
+}
+.otto-file-card-main {
+  flex: 1;
+  min-width: 0;
+}
+.otto-file-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.otto-file-sub {
+  font-size: 10.5px;
+  color: var(--text-4);
+}
+.otto-file-best-badge {
+  font: 700 8px var(--font-mono);
+  background: var(--ink);
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 6px;
+  flex: 0 0 auto;
+}
+.otto-file-chevron {
+  color: var(--placeholder);
+  font-size: 15px;
+}
+.otto-file-match {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  font-size: 10.5px;
+  color: #555;
+  background: var(--fill-2);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+.otto-file-match b {
+  margin: 0 3px;
+  color: #222;
+}
+.otto-files-spacer {
+  flex: 1;
+  min-height: 14px;
+}
+
+/* -------------------------------------------------------------------------
+   Otto overlay: File confirm (dc.html:232-247)
+   ------------------------------------------------------------------------- */
+.otto-fileconfirm {
+  padding: 18px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.otto-fileconfirm-file {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--border-2);
+  border-radius: 9px;
+  padding: 10px 12px;
+}
+.otto-fileconfirm-file-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--excel);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+}
+.otto-fileconfirm-file-main {
+  flex: 1;
+  min-width: 0;
+}
+.otto-fileconfirm-file-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.otto-fileconfirm-file-sheet {
+  font-size: 10.5px;
+  color: var(--text-4);
+}
+.otto-fileconfirm-h1 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-top: 16px;
+}
+.otto-fileconfirm-sub {
+  font-size: 12px;
+  color: var(--text-4);
+  line-height: 1.45;
+  margin-top: 6px;
+}
+.otto-fileconfirm-sub b {
+  color: #444;
+}
+.otto-fileconfirm-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text-4);
+  margin: 16px 0 7px;
+}
+.otto-changes-table {
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+}
+.otto-changes-head {
+  display: flex;
+  background: var(--fill-2);
+  border-bottom: 1px solid var(--border-2);
+  font: 700 9px var(--font-mono);
+  color: var(--text-4);
+}
+.otto-changes-head span {
+  padding: 6px 8px;
+}
+.otto-changes-row {
+  display: flex;
+  font-size: 10.5px;
+  color: #333;
+  align-items: center;
+}
+.otto-changes-row span {
+  padding: 8px;
+}
+.otto-changes-col-po {
+  flex: 1.2;
+}
+.otto-changes-col-qty {
+  flex: 1;
+}
+.otto-changes-col-ship {
+  flex: 1.1;
+}
+.otto-changes-col-status {
+  flex: 1;
+}
+.otto-changes-po {
+  font-weight: 700;
+}
+.otto-changes-old {
+  text-decoration: line-through;
+  color: var(--placeholder);
+}
+.otto-changes-upd {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font: 700 8px var(--font-mono);
+}
+.otto-fileconfirm-note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 11px;
+  color: #555;
+}
+.otto-fileconfirm-spacer {
+  flex: 1;
+  min-height: 14px;
+}
+.otto-fileconfirm-actions {
+  display: flex;
+  gap: 9px;
+  margin-top: 12px;
+}
+.otto-fileconfirm-actions .btn-outline {
+  flex: 0 0 auto;
+  width: auto;
+}
+.otto-fileconfirm-actions .btn-primary {
+  flex: 1;
+  width: auto;
+}
+
+/* -------------------------------------------------------------------------
+   Otto overlay: Recording (dc.html:249-261)
+   ------------------------------------------------------------------------- */
+.otto-recording {
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+.otto-recording-h1 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-top: 18px;
+}
+.otto-recording-sub {
+  font-size: 12.5px;
+  color: #5a5a5a;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.otto-checklist {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-top: 24px;
+  text-align: left;
+}
+.otto-checklist-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: #999;
+}
+.otto-checklist-row.is-active {
+  font-weight: 700;
+  color: var(--ink);
+}
+.otto-checklist-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex: 0 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.otto-checklist-dot.is-done {
+  background: var(--ink);
+}
+.otto-checklist-dot.is-spinning {
+  border: 2px solid var(--ink);
+  border-top-color: var(--border-2);
+  animation: scoutspin 0.8s linear infinite;
+}
+
+/* -------------------------------------------------------------------------
+   Otto overlay/tab: Verify & recorded cards (dc.html:263-277, 323-337) —
+   shared layout between OttoVerify (Task 13) and OttoRecorded (Task 14).
+   ------------------------------------------------------------------------- */
+.otto-verify,
+.otto-recorded {
+  padding: 26px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+.otto-verify-check,
+.otto-recorded-check {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.otto-verify-h1,
+.otto-recorded-h1 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-top: 16px;
+}
+.otto-verify-sub,
+.otto-recorded-sub {
+  font-size: 12.5px;
+  color: #5a5a5a;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+.otto-verify-card,
+.otto-recorded-card {
+  width: 100%;
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 13px;
+  margin-top: 18px;
+  text-align: left;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+.otto-verify-card-head,
+.otto-recorded-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.otto-verify-card-title,
+.otto-recorded-card-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+.otto-verify-updated,
+.otto-recorded-updated {
+  font: 600 9.5px var(--font-mono);
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.otto-verify-divider,
+.otto-recorded-divider {
+  height: 1px;
+  background: var(--border-2);
+  margin: 10px 0;
+}
+.otto-verify-rows,
+.otto-recorded-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11.5px;
+  color: #555;
+}
+.otto-verify-row,
+.otto-recorded-row {
+  display: flex;
+  justify-content: space-between;
+}
+.otto-verify-row span:first-child,
+.otto-recorded-row span:first-child {
+  color: var(--text-4);
+}
+.otto-verify-row span:last-child,
+.otto-recorded-row span:last-child {
+  font-weight: 600;
+  color: #222;
+}
+.otto-verify-spacer,
+.otto-recorded-spacer {
+  flex: 1;
+}
