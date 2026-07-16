@@ -18,7 +18,11 @@ const FIELD_LABELS = {
 
 export function OttoReinstruct() {
   const { nav, data, actions } = useApp();
+  // nav persists across reloads but data.oldScans starts [] until the otto
+  // tab's lazy loader lands — render nothing until the email exists (same
+  // guard as CheckupSchedule/AuditDetail for their lazy-loaded lookups).
   const email = data.oldScans[nav.ottoOldIndex];
+  if (!email) return null;
 
   return (
     <div className="otto-reinstruct">

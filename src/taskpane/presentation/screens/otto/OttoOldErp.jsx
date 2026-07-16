@@ -11,7 +11,10 @@ import { ErpPicker, PrimaryButton } from "../../components/primitives";
 
 export function OttoOldErp() {
   const { nav, data, otto, actions } = useApp();
+  // Guard the persisted-nav reload window before oldScans lazy-load lands
+  // (same as OttoReinstruct).
   const email = data.oldScans[nav.ottoOldIndex];
+  if (!email) return null;
   const orderNumber = email.reinstructFields.orderNumber;
 
   return (

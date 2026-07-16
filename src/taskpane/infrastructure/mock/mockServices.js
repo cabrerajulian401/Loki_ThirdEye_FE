@@ -53,7 +53,10 @@ export function createMockServices(storage) {
     connect(/* token */) {
       if (!storage.get("demoToastFired")) {
         storage.set("demoToastFired", true);
-        scheduleRealtimeEvent(storage, "discrepancy.found", { key: "price", discrepancy: seed.findings.price }, 8000);
+        // The ws contract's `discrepancy.found` payload IS the discrepancy
+        // DTO itself (see wsGateway/BE_Docs) — emit the seeded price finding
+        // as-is, exactly like tests emit through `_emit`.
+        scheduleRealtimeEvent(storage, "discrepancy.found", seed.findings.price, 8000);
       }
     },
     on(type, fn) {

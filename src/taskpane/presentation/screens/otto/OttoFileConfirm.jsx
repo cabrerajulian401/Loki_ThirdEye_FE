@@ -19,21 +19,26 @@ function sheetNameFromSubtitle(subtitle) {
 
 export function OttoFileConfirm() {
   const { data, otto, actions } = useApp();
+  // `selectedFileIndex` can point past the destinations list (2 = "new
+  // sheet") when a failed new-sheet record routes back here — render the
+  // file header only when a real destination backs it.
   const destination = data.scan.destinations[otto.selectedFileIndex];
   const fields = data.scan.extractedFields;
   const sheetName = sheetNameFromSubtitle(destination && destination.subtitle);
 
   return (
     <div className="otto-fileconfirm">
-      <div className="otto-fileconfirm-file">
-        <span className="otto-fileconfirm-file-icon">
-          <ExcelGreenGlyph size={16} stroke="#fff" />
-        </span>
-        <div className="otto-fileconfirm-file-main">
-          <div className="otto-fileconfirm-file-name">{destination.name}</div>
-          <div className="otto-fileconfirm-file-sheet">Sheet “{sheetName}”</div>
+      {destination && (
+        <div className="otto-fileconfirm-file">
+          <span className="otto-fileconfirm-file-icon">
+            <ExcelGreenGlyph size={16} stroke="#fff" />
+          </span>
+          <div className="otto-fileconfirm-file-main">
+            <div className="otto-fileconfirm-file-name">{destination.name}</div>
+            <div className="otto-fileconfirm-file-sheet">Sheet “{sheetName}”</div>
+          </div>
         </div>
-      </div>
+      )}
       <div className="otto-fileconfirm-h1">Continue editing this sheet</div>
       <div className="otto-fileconfirm-sub">
         Scout will keep your sheet’s exact structure — updating the existing <b>PO #{fields.orderNumber}</b> row

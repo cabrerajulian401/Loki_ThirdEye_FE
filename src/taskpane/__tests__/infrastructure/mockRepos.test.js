@@ -116,4 +116,24 @@ describe("mock services", () => {
     realtime._emit("discrepancy.found", { key: "price" });
     expect(fn).toHaveBeenCalledWith({ key: "price" });
   });
+  // Regression (final whole-branch review, Important 2): the 8s demo event's
+  // payload must be the discrepancy DTO itself (ws contract), not a
+  // `{ key, discrepancy }` wrapper the handlers can't read.
+  it("8s demo event carries the price discrepancy DTO itself", () => {
+    jest.useFakeTimers();
+    try {
+      const { realtime } = createMockServices(memStorage());
+      const fn = jest.fn();
+      realtime.on("discrepancy.found", fn);
+      realtime.connect("mock-token");
+      jest.advanceTimersByTime(8000);
+      expect(fn).toHaveBeenCalledTimes(1);
+      const payload = fn.mock.calls[0][0];
+      expect(payload.type).toBe("price");
+      expect(payload.id).toBeDefined();
+      expect(payload.key).toBeUndefined();
+    } finally {
+      jest.useRealTimers();
+    }
+  });
 });
