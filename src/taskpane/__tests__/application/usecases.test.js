@@ -1,4 +1,5 @@
-import { createSessionUsecases } from "../../application/usecases/session";
+import { createSessionUsecases, createRealtimeUsecases } from "../../application/usecases/session";
+import { createOrderUsecases } from "../../application/usecases/orders";
 import { createOttoUsecases } from "../../application/usecases/otto";
 import { createCheckupUsecases } from "../../application/usecases/checkups";
 import { createAuditUsecases } from "../../application/usecases/audit";
@@ -56,4 +57,49 @@ it("openReplyDraft builds the compose payload from the finding", async () => {
   await uc.openReplyDraft({ contactEmail: "maria@acmesteel.com",
     draftReply: { subject: "PO #4471 — pricing discrepancy", body: "Hi Maria,\n\nQuick flag…" } });
   expect(draft).toMatchObject({ to: "maria@acmesteel.com", subject: "PO #4471 — pricing discrepancy" });
+});
+
+it("createRealtimeUsecases.start connects with the token and wires only the provided handlers", () => {
+  const connectCalls = [];
+  const onCalls = [];
+  const realtime = {
+    connect: (token) => { connectCalls.push(token); },
+    on: (type, fn) => { onCalls.push([type, fn]); },
+  };
+  const auth = { getToken: () => "tok-9" };
+  const uc = createRealtimeUsecases({ realtime, auth });
+  const fn1 = () => {};
+  const fn2 = () => {};
+
+  uc.start({ onSyncCompleted: fn1, onDiscrepancyFound: fn2 });
+
+  expect(connectCalls).toEqual(["tok-9"]);
+  expect(onCalls.map(([type]) => type)).toEqual(["sync.completed", "discrepancy.found"]);
+});
+
+it("createRealtimeUsecases.start with all three handlers registers all three event types", () => {
+  const onCalls = [];
+  const realtime = {
+    connect: () => {},
+    on: (type) => { onCalls.push(type); },
+  };
+  const auth = { getToken: () => "tok-1" };
+  const uc = createRealtimeUsecases({ realtime, auth });
+
+  uc.start({ onSyncCompleted: () => {}, onOrderUpdated: () => {}, onDiscrepancyFound: () => {} });
+
+  expect(onCalls).toEqual(["sync.completed", "order.updated", "discrepancy.found"]);
+});
+
+it("listOrders forwards its args to the repo and passes the Result through untouched", async () => {
+  let seen;
+  const listResult = ok({ orders: [{ id: "o1" }], nextCursor: null });
+  const uc = createOrderUsecases({
+    orderRepo: { list: async (args) => { seen = args; return listResult; } },
+  });
+
+  const got = await uc.listOrders({ status: "delayed" });
+
+  expect(seen).toEqual({ status: "delayed" });
+  expect(got).toBe(listResult);
 });
