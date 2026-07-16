@@ -12,6 +12,7 @@ import { BottomNav } from "../components/BottomNav";
 import { WelcomeScreen } from "../screens/onboarding/WelcomeScreen";
 import { ChecklistScreen } from "../screens/onboarding/ChecklistScreen";
 import { ConnectErpScreen } from "../screens/onboarding/ConnectErpScreen";
+import { OrdersScreen } from "../screens/orders/OrdersScreen";
 
 /* Otto overlay steps (Task 13 replaces these placeholder stubs). */
 const OTTO_OVERLAY_SCREENS = {
@@ -23,19 +24,6 @@ const OTTO_OVERLAY_SCREENS = {
   recording: () => <div>Otto recording placeholder</div>,
   verify: () => <div>Otto verify placeholder</div>,
 };
-
-/* Orders tab (Task 12 replaces this). Deliberately NOT the bare text
- * "Orders" — the bottom nav's own Orders tab already renders that exact
- * string (and, per the prototype, the real OrdersScreen's header will too:
- * dc.html:156), so a stub reading exactly "Orders" collides with
- * `screen.findByText("Orders")` in onboarding.test.jsx ("Found multiple
- * elements"). The nav test's intent — confirming we've landed in the app
- * phase with the bottom nav showing — is satisfied by the nav's own label
- * matching uniquely; this placeholder just needs to render distinguishable
- * (non-colliding) content until Task 12 replaces it. */
-function OrdersScreenStub() {
-  return <div>Orders placeholder</div>;
-}
 
 /* Otto tab (Task 14 replaces these), by nav.ottoOld. */
 const OTTO_TAB_SCREENS = {
@@ -87,7 +75,7 @@ function renderScreen(nav, otto) {
     }
     case "suppliers":
     default:
-      return <OrdersScreenStub />;
+      return <OrdersScreen />;
   }
 }
 

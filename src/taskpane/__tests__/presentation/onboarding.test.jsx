@@ -32,7 +32,7 @@ it("Go to Scout lands on Orders with bottom nav", async () => {
   renderApp();
   await userEvent.click(screen.getByRole("button", { name: /Sign in with Microsoft/ }));
   await userEvent.click(screen.getByRole("button", { name: "Go to Scout" }));
-  expect(await screen.findByText("Orders")).toBeInTheDocument();
+  expect(await screen.findByText("10 ACTIVE ORDERS")).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /Check-ups/ })).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /Audit/ })).toBeInTheDocument();
 });
@@ -43,7 +43,7 @@ it("session persists across remount (localStorage nav)", async () => {
   await userEvent.click(screen.getByRole("button", { name: "Go to Scout" }));
   unmount();
   render(<App container={buildContainer({ dataSource: "mock", auth: { mode: "mock" } })} />);
-  expect(await screen.findByText("Orders")).toBeInTheDocument();
+  expect(await screen.findByText("10 ACTIVE ORDERS")).toBeInTheDocument();
 });
 
 // Regression guard for the realtime `discrepancy.found` path added after

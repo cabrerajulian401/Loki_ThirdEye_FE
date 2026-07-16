@@ -51,24 +51,42 @@ function poNumberFromString(value) {
 }
 
 function createOrderRepo(storage) {
-  const { wrap, _failNext } = makeFailable();
+  // Each method gets its OWN one-shot failable state (rather than one shared
+  // across all three) because `completeOnboarding()` fires `startSync()` +
+  // `ensureSubscription()` synchronously ahead of the orders-loading effect's
+  // `list()` call (see useAppController.js) — a single shared "next call
+  // fails" flag would always be consumed by `startSync()` first, so tests
+  // arming a failure meant for `list()` (spec §8's inline-retry state) need
+  // it to land on `list()` specifically, independent of those other two.
+  const listFailable = makeFailable();
+  const startSyncFailable = makeFailable();
+  const ensureSubscriptionFailable = makeFailable();
 
-  const list = wrap(async (args = {}) => {
+  const list = listFailable.wrap(async (args = {}) => {
     const db = loadDb(storage);
     let orders = db.orders;
     if (args && args.status) orders = orders.filter((o) => o.status === args.status);
     return ok({ orders, nextCursor: null });
   });
 
-  const startSync = wrap(async () => {
+  const startSync = startSyncFailable.wrap(async () => {
     const syncId = "mock-sync-1";
     scheduleRealtimeEvent(storage, "sync.completed", { syncId }, 1200);
     return ok({ syncId });
   });
 
-  const ensureSubscription = wrap(async () => {
+  const ensureSubscription = ensureSubscriptionFailable.wrap(async () => {
     return ok({ subscriptionId: "mock-sub-1", expiresAt: new Date(Date.now() + 3600 * 1000).toISOString() });
   });
+
+  // Arms all three methods' independent flags — the next call to *each* of
+  // them fails exactly once, regardless of which one is actually invoked
+  // (or in what order relative to the others).
+  const _failNext = (error) => {
+    listFailable._failNext(error);
+    startSyncFailable._failNext(error);
+    ensureSubscriptionFailable._failNext(error);
+  };
 
   return { list, startSync, ensureSubscription, _failNext };
 }

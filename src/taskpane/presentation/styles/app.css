@@ -690,6 +690,186 @@ button {
 }
 
 /* -------------------------------------------------------------------------
+   Otto banner (dc.html:149-155)
+   ------------------------------------------------------------------------- */
+.otto-banner {
+  margin: 13px 14px 2px;
+  border: 1.5px solid var(--ink);
+  border-radius: 11px;
+  padding: 13px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.otto-banner-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.otto-banner-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+}
+.otto-banner-title {
+  font-size: 13.5px;
+  font-weight: 800;
+}
+.otto-banner-sub {
+  font-size: 11px;
+  color: var(--text-3);
+}
+.otto-banner-body {
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.45;
+  margin-top: 9px;
+}
+.otto-banner-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 11px;
+}
+.otto-banner-dismiss {
+  flex: 0 0 auto;
+  border: 1px solid var(--border-input);
+  background: var(--surface);
+  color: #666;
+  font: 600 12px var(--font-ui);
+  padding: 9px 13px;
+  border-radius: var(--r-btn);
+}
+.otto-banner-review {
+  flex: 1;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font: 700 12px var(--font-ui);
+  padding: 9px;
+  border-radius: var(--r-btn);
+}
+
+/* -------------------------------------------------------------------------
+   Orders / Suppliers home (dc.html:146-165)
+   ------------------------------------------------------------------------- */
+.orders-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.orders-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+.orders-header-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.orders-sort-chip {
+  font-size: 11px;
+  color: #666;
+  border: 1px solid #e2e2e2;
+  border-radius: var(--r-btn);
+  padding: 5px 9px;
+  flex: 0 0 auto;
+}
+.orders-list {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.orders-list-spacer {
+  height: 14px;
+}
+.orders-loading {
+  padding: 24px 16px;
+  display: flex;
+  justify-content: center;
+}
+.orders-error {
+  margin: 16px;
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--alert);
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------
+   OrderCard (dc.html:158-161)
+   ------------------------------------------------------------------------- */
+.order-card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  padding: 11px 12px;
+}
+.order-card.is-dim {
+  border-color: var(--border-2);
+  opacity: 0.7;
+}
+.order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.order-card-po {
+  font-weight: 800;
+  font-size: 13.5px;
+  letter-spacing: -0.01em;
+}
+.order-card-company {
+  font-size: 11.5px;
+  color: var(--text-3);
+  font-weight: 600;
+  margin-top: 3px;
+}
+.order-card-timing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-3);
+}
+.order-card-message-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 7px;
+}
+.order-card-message {
+  font-size: 11px;
+  color: var(--text-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+.order-card-message b {
+  font-weight: 600;
+  color: #444;
+}
+.order-card-date {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--placeholder);
+  flex: 0 0 auto;
+}
+
+/* -------------------------------------------------------------------------
    TimingSelects (dc.html:383-388)
    ------------------------------------------------------------------------- */
 .timing-selects {

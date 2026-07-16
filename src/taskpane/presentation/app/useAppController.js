@@ -82,6 +82,25 @@ export function useAppController(container) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nav.phase]);
 
+  // Otto open-email scan pre-check: fired once on entering the app phase
+  // (mock and Office modes both go through the same emailContext/ottoRepo
+  // ports). Success means Scout found a scannable open email — the Orders
+  // screen's banner (Task 12) and Task 13's review overlay both key off
+  // `data.openScanAvailable`/`data.scan`. Guarded by a ref (not state) so
+  // switching tabs back and forth within the same session doesn't re-scan.
+  const scannedRef = React.useRef(false);
+  React.useEffect(() => {
+    if (nav.phase === "app" && !scannedRef.current) {
+      scannedRef.current = true;
+      usecases.otto.scanOpenEmail().then((result) => {
+        if (result.ok) {
+          setData((d) => ({ ...d, openScanAvailable: true, scan: result.data }));
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nav.phase]);
+
   const upsertFinding = React.useCallback((f) => {
     if (!f) return;
     setData((d) => ({ ...d, findings: mergeFinding(d.findings, f) }));
@@ -131,8 +150,14 @@ export function useAppController(container) {
         if (isOverlayActive(otto)) dispatchOtto({ type: "BACK" });
         else dispatchNav({ type: "BACK" });
       },
+      dismissBanner: () => dispatchNav({ type: "OTTO_BANNER_DISMISS" }),
+      // The scan backing the banner is already loaded (data.scan, from the
+      // pre-check effect above) by the time this is clickable, since the
+      // banner only renders once that pre-check succeeded.
+      ottoReview: () => dispatchOtto({ type: "OPEN_REVIEW" }),
+      retryOrders: () => refetchOrders(),
     }),
-    [usecases, otto]
+    [usecases, otto, refetchOrders]
   );
 
   return { nav, otto, data, actions };
