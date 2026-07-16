@@ -158,8 +158,7 @@ export function useAppController(container) {
       findingsLoadedRef.current = true;
       refetchFindings();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nav.tab]);
+  }, [nav.tab, refetchFindings]);
 
   const upsertFinding = React.useCallback((f) => {
     if (!f) return;
