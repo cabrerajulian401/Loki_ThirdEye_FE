@@ -1,0 +1,532 @@
+/* ==========================================================================
+   Scout add-in — base stylesheet
+   Source of truth: .claude/assets/design_handoff_scout_addin/Scout Prototype.dc.html
+   Section order: reset -> pane shell -> bottom nav -> keyframes -> primitives
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------
+   Reset (dc.html <style> block)
+   ------------------------------------------------------------------------- */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-ui);
+}
+* {
+  box-sizing: border-box;
+}
+::selection {
+  background: var(--ink);
+  color: #fff;
+}
+textarea,
+input,
+select {
+  font-family: var(--font-ui);
+}
+button {
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------
+   Pane shell (dc.html:85-94)
+   ------------------------------------------------------------------------- */
+.pane {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: var(--surface);
+  color: #1c1c1c;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  overflow: hidden;
+}
+
+.pane-header {
+  height: 46px;
+  flex: 0 0 46px;
+  border-bottom: 1px solid var(--border-2);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 14px;
+}
+
+.pane-header-back {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-5);
+  cursor: pointer;
+  padding-right: 2px;
+  background: none;
+  border: none;
+}
+
+.pane-header-title {
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.pane-header-close {
+  margin-left: auto;
+  color: var(--placeholder);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pane-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane-body::-webkit-scrollbar {
+  width: 6px;
+}
+.pane-body::-webkit-scrollbar-thumb {
+  background: var(--border-input);
+  border-radius: 9px;
+}
+
+/* -------------------------------------------------------------------------
+   Bottom nav — 4 items, active filled circle, red "!" badge (dc.html:484-492)
+   ------------------------------------------------------------------------- */
+.bottom-nav {
+  flex: 0 0 auto;
+  border-top: 1px solid #e6e6e6;
+  display: flex;
+  background: var(--surface);
+  padding: 7px 0;
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-ui);
+}
+
+.bottom-nav-icon {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-nav-item.is-active .bottom-nav-icon {
+  background: var(--ink);
+}
+
+.bottom-nav-label {
+  font: 600 10px var(--font-ui);
+  color: var(--text-4);
+}
+
+.bottom-nav-item.is-active .bottom-nav-label {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.bottom-nav-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--alert);
+  border: 1.6px solid var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font: 800 9.5px var(--font-ui);
+  line-height: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Keyframes (dc.html:18)
+   ------------------------------------------------------------------------- */
+@keyframes scoutspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Card (dc.html order cards, e.g. 158-161)
+   ------------------------------------------------------------------------- */
+.card {
+  border: 1px solid var(--border);
+  border-radius: var(--r-card);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+.card.is-emphasis {
+  border: 1.5px solid var(--ink);
+}
+.card.is-clickable {
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------
+   MonoLabel (dc.html JetBrains Mono section labels, e.g. 104, 172, 187)
+   Text is uppercased in JS, not via CSS text-transform.
+   ------------------------------------------------------------------------- */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-4);
+}
+
+/* -------------------------------------------------------------------------
+   PillTag (dc.html:158-161 order status pills)
+   ------------------------------------------------------------------------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  border-radius: var(--r-pill);
+  padding: 2px 9px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.pill-filled {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+}
+.pill-outline {
+  border: 1px solid #d0d0d0;
+  color: #333;
+  font-weight: 600;
+}
+.pill-dim {
+  border: 1px solid #e0e0e0;
+  color: var(--text-5);
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------
+   Buttons (dc.html primary/outline/dashed CTAs, e.g. 102, 153, 228)
+   ------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--r-btn);
+  font-family: var(--font-ui);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-primary {
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 12px;
+  width: 100%;
+}
+.btn-outline {
+  border: 1px solid var(--border-input);
+  background: var(--surface);
+  color: #444;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 11px 14px;
+}
+.btn-dashed {
+  border: 1px dashed var(--border-dash);
+  background: var(--surface);
+  color: #444;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 11px;
+  width: 100%;
+}
+
+/* -------------------------------------------------------------------------
+   Toggle — 26x15 pill switch (dc.html:347, 635-638)
+   ------------------------------------------------------------------------- */
+.toggle-track {
+  width: 26px;
+  height: 15px;
+  border-radius: var(--r-pill);
+  position: relative;
+  display: inline-block;
+  background: #dcdcdc;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.toggle-track.is-on {
+  background: var(--ink);
+}
+.toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.15s ease;
+}
+.toggle-track.is-on .toggle-knob {
+  left: 13px;
+}
+
+/* -------------------------------------------------------------------------
+   FieldCard — mono label + 13px value row (dc.html:172-176)
+   ------------------------------------------------------------------------- */
+.field-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  padding: 9px 11px;
+}
+.field-card.is-clickable {
+  cursor: pointer;
+}
+.field-card-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.field-card-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1c1c1c;
+}
+.field-card-trailing {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+/* -------------------------------------------------------------------------
+   ErpPicker — 3 radio cards (dc.html:137-139, 615-616)
+   ------------------------------------------------------------------------- */
+.erp-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.erp-option {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border-radius: var(--r-card);
+  padding: 12px;
+  cursor: pointer;
+  border: 1px solid #e2e2e2;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-ui);
+}
+.erp-option.is-selected {
+  border: 1.5px solid var(--ink);
+}
+.erp-option-icon {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e2e2;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+}
+.erp-option-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  flex: 1;
+}
+.erp-option.is-selected .erp-option-name {
+  font-weight: 700;
+  color: #1c1c1c;
+}
+.erp-option-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #cfcfcf;
+  flex: 0 0 16px;
+  display: inline-block;
+}
+.erp-option.is-selected .erp-option-dot {
+  border: 5px solid var(--ink);
+}
+
+/* -------------------------------------------------------------------------
+   AvatarRow (dc.html:360 contact chip)
+   ------------------------------------------------------------------------- */
+.avatar-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.avatar-row-initials {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--avatar);
+  flex: 0 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 10px var(--font-ui);
+  color: #666;
+}
+.avatar-row-main {
+  min-width: 0;
+}
+.avatar-row-name {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.avatar-row-sub {
+  font-size: 10.5px;
+  color: var(--text-5);
+}
+
+/* -------------------------------------------------------------------------
+   ProgressBar (dc.html:119 checklist progress)
+   ------------------------------------------------------------------------- */
+.progress-bar {
+  flex: 1;
+  height: 7px;
+  border-radius: var(--r-pill);
+  background: #eee;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 7px;
+  background: var(--ink);
+}
+
+/* -------------------------------------------------------------------------
+   Spinner (dc.html:252 recording spinner)
+   ------------------------------------------------------------------------- */
+.spinner {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 3px solid var(--border-2);
+  border-top-color: var(--ink);
+  animation: scoutspin 0.8s linear infinite;
+}
+
+/* -------------------------------------------------------------------------
+   Compare (dc.html:454-455 audit finding compare block)
+   ------------------------------------------------------------------------- */
+.compare {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-card);
+  padding: 12px;
+  background: var(--fill);
+}
+.compare-side {
+  text-align: center;
+  flex: 1;
+}
+.compare-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-4);
+}
+.compare-value {
+  font-size: 16px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+.compare-impact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------------------
+   TokenChips (dc.html:380/402 message template chips)
+   ------------------------------------------------------------------------- */
+.token-chips {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.token-chip {
+  font: 600 9.5px var(--font-mono);
+  border: 1px solid var(--border-input);
+  border-radius: 5px;
+  padding: 3px 7px;
+  color: #555;
+}
+
+/* -------------------------------------------------------------------------
+   TimingSelects (dc.html:383-388)
+   ------------------------------------------------------------------------- */
+.timing-selects {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.timing-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  padding: 7px 11px;
+  gap: 10px;
+}
+.timing-label {
+  font-size: 12px;
+  color: #444;
+}
+.timing-select {
+  border: 1px solid var(--border-input);
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--surface);
+  outline: none;
+  font-family: var(--font-ui);
+}
