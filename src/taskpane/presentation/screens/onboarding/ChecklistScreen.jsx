@@ -5,7 +5,7 @@
 import * as React from "react";
 import { useApp } from "../../app/AppContext";
 import { checklistProgress } from "../../../domain/rules/checklistProgress";
-import { ProgressBar, PrimaryButton } from "../../components/primitives";
+import { ProgressBar, PrimaryButton, pressableProps } from "../../components/primitives";
 import { CheckIcon } from "../../icons";
 
 function ChecklistDot({ checked, strongBorder }) {
@@ -34,7 +34,7 @@ export function ChecklistScreen() {
           <span className="checklist-row-title is-done">Sign in with Microsoft</span>
         </div>
 
-        <div className="checklist-row is-erp is-clickable" onClick={actions.openConnect}>
+        <div className="checklist-row is-erp is-clickable" {...pressableProps(actions.openConnect)}>
           <ChecklistDot checked={nav.checklist.erp} strongBorder />
           <div className="checklist-row-main">
             <div className="checklist-row-title">Connect your ERP</div>
@@ -43,7 +43,7 @@ export function ChecklistScreen() {
           <span className="checklist-chevron">›</span>
         </div>
 
-        <div className="checklist-row is-plain is-clickable" onClick={actions.toggleOtto}>
+        <div className="checklist-row is-plain is-clickable" {...pressableProps(actions.toggleOtto)}>
           <ChecklistDot checked={nav.checklist.otto} strongBorder={false} />
           <div className="checklist-row-main">
             <div className="checklist-row-title is-secondary">Turn on Otto-Mode</div>
@@ -52,7 +52,7 @@ export function ChecklistScreen() {
           <span className="checklist-chevron is-dim">›</span>
         </div>
 
-        <div className="checklist-row is-plain is-clickable" onClick={actions.toggleInvite}>
+        <div className="checklist-row is-plain is-clickable" {...pressableProps(actions.toggleInvite)}>
           <ChecklistDot checked={nav.checklist.invite} strongBorder={false} />
           <div className="checklist-row-main">
             <div className="checklist-row-title is-secondary">Invite your team</div>

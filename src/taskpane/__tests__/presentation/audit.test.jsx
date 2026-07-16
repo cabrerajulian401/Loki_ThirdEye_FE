@@ -46,6 +46,17 @@ it("email CTA opens compose with the drafted reply (mailto fallback in jsdom)", 
   open.mockRestore();
 });
 
+// Screen-local pressableProps coverage: feed rows are plain divs, so pin the
+// keyboard path (role + Enter) end-to-end through a real screen, not just
+// the primitives.
+it("finding rows are keyboard-operable buttons", async () => {
+  await gotoAudit();
+  const row = screen.getByRole("button", { name: /Price changed/ });
+  row.focus();
+  await userEvent.keyboard("{Enter}");
+  expect(await screen.findByText("+$1.50/unit · +$180 on 120 units")).toBeInTheDocument();
+});
+
 it("realtime discrepancy raises the toast; Review finding deep-links", async () => {
   await renderAppAtOrders();
   act(() => {

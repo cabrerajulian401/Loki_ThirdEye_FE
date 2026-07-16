@@ -6,7 +6,7 @@
  */
 import * as React from "react";
 import { useApp } from "../../app/AppContext";
-import { MonoLabel, OutlineButton } from "../../components/primitives";
+import { MonoLabel, OutlineButton, pressableProps } from "../../components/primitives";
 import { CubeIcon, ClockIcon, DollarCircleIcon, MagnifierIcon, RefreshIcon } from "../../icons";
 
 const FINDING_ICONS = {
@@ -73,7 +73,7 @@ export function AuditFeed() {
             {group.findings.map((f) => {
               const Icon = FINDING_ICONS[f.type] || DollarCircleIcon;
               return (
-                <div className="au-finding" key={f.id || f.type} onClick={() => actions.auOpenFinding(f.type)}>
+                <div className="au-finding" key={f.id || f.type} {...pressableProps(() => actions.auOpenFinding(f.type))}>
                   <span className="au-finding-icon">
                     <Icon size={15} stroke="#141414" />
                   </span>

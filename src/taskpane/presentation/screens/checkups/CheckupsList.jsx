@@ -6,7 +6,7 @@
  */
 import * as React from "react";
 import { useApp } from "../../app/AppContext";
-import { AvatarRow, PrimaryButton, Toggle } from "../../components/primitives";
+import { AvatarRow, PrimaryButton, Toggle, pressableProps } from "../../components/primitives";
 import { PlusIcon } from "../../icons";
 
 // dc.html renderVals() cadenceLine (line 641): on flows show the clock glyph
@@ -38,7 +38,7 @@ export function CheckupsList() {
             <div className="cu-card-top">
               <span
                 className={`cu-card-po${flow.on ? "" : " is-off"}`}
-                onClick={() => actions.cuOpenVendor(index)}
+                {...pressableProps(() => actions.cuOpenVendor(index))}
               >
                 {flow.poNumber}
               </span>
@@ -51,7 +51,7 @@ export function CheckupsList() {
                 {flow.on ? "ON" : "OFF"}
               </span>
             </div>
-            <div className="cu-card-contact" onClick={() => actions.cuOpenVendor(index)}>
+            <div className="cu-card-contact" {...pressableProps(() => actions.cuOpenVendor(index))}>
               <AvatarRow
                 initials={flow.initials}
                 name={

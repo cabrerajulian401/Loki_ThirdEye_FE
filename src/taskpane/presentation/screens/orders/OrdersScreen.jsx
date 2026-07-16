@@ -6,7 +6,7 @@
  */
 import * as React from "react";
 import { useApp } from "../../app/AppContext";
-import { MonoLabel, Spinner } from "../../components/primitives";
+import { MonoLabel, Spinner, pressableProps } from "../../components/primitives";
 import { OttoBanner } from "./OttoBanner";
 import { OrderCard } from "./OrderCard";
 
@@ -28,7 +28,7 @@ export function OrdersScreen() {
       </div>
 
       {data.ordersError ? (
-        <span className="orders-error" onClick={actions.retryOrders}>
+        <span className="orders-error" {...pressableProps(actions.retryOrders)}>
           COULDN'T LOAD ORDERS — RETRY
         </span>
       ) : showSpinner ? (

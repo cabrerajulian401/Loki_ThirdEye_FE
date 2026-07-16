@@ -9,6 +9,27 @@ import "../styles/app.css";
 import { NetSuiteGlyph, QuickBooksGlyph, ExcelGridGlyph, ArrowRightIcon } from "../icons";
 
 /* -------------------------------------------------------------------------
+   pressableProps — spread over a clickable non-<button> element (div/span
+   rows the prototype styles preclude converting to <button>) to make it
+   keyboard-operable: button role, tab stop, and Enter/Space activation
+   mirroring native button behavior. No-op (empty props) without onClick.
+   ------------------------------------------------------------------------- */
+export function pressableProps(onClick) {
+  if (!onClick) return {};
+  return {
+    role: "button",
+    tabIndex: 0,
+    onClick,
+    onKeyDown: (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onClick(e);
+      }
+    },
+  };
+}
+
+/* -------------------------------------------------------------------------
    Card
    ------------------------------------------------------------------------- */
 export function Card({ children, emphasis, onClick, className }) {
@@ -17,7 +38,7 @@ export function Card({ children, emphasis, onClick, className }) {
   if (onClick) classes.push("is-clickable");
   if (className) classes.push(className);
   return (
-    <div className={classes.join(" ")} onClick={onClick}>
+    <div className={classes.join(" ")} {...pressableProps(onClick)}>
       {children}
     </div>
   );
@@ -92,7 +113,7 @@ export function Toggle({ on, onChange, ariaLabel }) {
    ------------------------------------------------------------------------- */
 export function FieldCard({ label, value, trailing, onClick }) {
   return (
-    <div className={`field-card${onClick ? " is-clickable" : ""}`} onClick={onClick}>
+    <div className={`field-card${onClick ? " is-clickable" : ""}`} {...pressableProps(onClick)}>
       <div className="field-card-main">
         <MonoLabel>{label}</MonoLabel>
         <div className="field-card-value">{value}</div>

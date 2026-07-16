@@ -22,6 +22,11 @@ export function OttoErp() {
       <div className="otto-erp-picker-wrap">
         <ErpPicker selected={otto.selectedErp} onPick={actions.ottoPickErp} />
       </div>
+      {otto.error && (
+        <div className="otto-record-error">
+          COULDN'T RECORD — {String(otto.error.message || "TRY AGAIN").toUpperCase()}
+        </div>
+      )}
       <div className="otto-erp-spacer" />
       <PrimaryButton onClick={actions.ottoRecord}>Record to {otto.selectedErp}</PrimaryButton>
     </div>

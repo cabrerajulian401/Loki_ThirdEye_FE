@@ -1032,6 +1032,16 @@ button {
 .otto-erp-spacer {
   flex: 1;
 }
+/* Inline record-failure line (RECORD_FAILED) on the ERP + file-confirm
+   screens — mono alert styling mirroring .orders-error (not clickable). */
+.otto-record-error {
+  margin-top: 12px;
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--alert);
+}
 
 /* -------------------------------------------------------------------------
    Otto overlay: Found files (dc.html:210-230)

@@ -69,6 +69,11 @@ export function OttoFileConfirm() {
         <CheckIcon size={13} stroke="#107c41" />
         Same columns, formatting & formulas preserved
       </div>
+      {otto.error && (
+        <div className="otto-record-error">
+          COULDN'T RECORD — {String(otto.error.message || "TRY AGAIN").toUpperCase()}
+        </div>
+      )}
       <div className="otto-fileconfirm-spacer" />
       <div className="otto-fileconfirm-actions">
         <OutlineButton onClick={actions.back}>Back</OutlineButton>

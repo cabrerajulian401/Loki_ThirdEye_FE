@@ -7,7 +7,7 @@
  */
 import * as React from "react";
 import { useApp } from "../../app/AppContext";
-import { DashedButton } from "../../components/primitives";
+import { DashedButton, pressableProps } from "../../components/primitives";
 import { ExcelGreenGlyph, PlusIcon, CheckIcon, ClockIcon } from "../../icons";
 
 export function OttoFiles() {
@@ -37,7 +37,7 @@ export function OttoFiles() {
           <div
             key={dest.id}
             className={`otto-file-card${dest.isBestMatch ? " is-best" : ""}`}
-            onClick={() => actions.ottoPickFile(index)}
+            {...pressableProps(() => actions.ottoPickFile(index))}
           >
             <div className="otto-file-card-head">
               <span className={`otto-file-icon${dest.isBestMatch ? " is-best" : ""}`}>
