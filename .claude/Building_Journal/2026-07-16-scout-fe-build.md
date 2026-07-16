@@ -10,9 +10,9 @@
 
 The full Scout task-pane app in React 18 + JavaScript inside the existing OfficeDev scaffold: **first-run** (Welcome → Setup checklist → Connect ERP), **Orders** home with the Otto banner and realtime updates, the complete **Otto-Mode** overlay flow (Review → Edit → ERP → Files → File-confirm → Recording → Verify) plus the old/dismissed-email tab flow, **Check-ups** (list / schedule / step editor / new check-up / activity timeline), and **Live Audit** (feed / finding detail / alert toast / real Outlook compose handoff) — all 22 screens 1:1 with the design prototype, all copy byte-exact.
 
-Everything runs on **mock adapters seeded verbatim from the prototype** and persists in `localStorage` (key namespace `scout:`), so the app is fully testable in a browser with no backend. The **Overseer HTTP + WebSocket adapters are already written and contract-tested** against `BE_Docs/Endpoints/`; switching to the real backend is a one-flag change (`dataSource: "http"` in `src/taskpane/config/app.config.js`).
+Everything runs on **mock adapters seeded verbatim from the prototype** and persists in `localStorage` (key namespace `scout:`), so the app is fully testable in a browser with no backend. The **Overseer HTTP + WebSocket adapters are already written and contract-tested** against `BE_Docs/Endpoints/`; the flip to the real backend (`dataSource: "http"` in `src/taskpane/config/app.config.js`) is **transport-ready** — paths, auth headers, error mapping, and the ws contract are all contract-tested — but not yet render-ready: screens bind seed-shaped view-model fields the BE DTOs don't carry, so a mapping layer is still needed (gap #9 below).
 
-**Numbers:** 18 plan tasks · 21 feature/fix commits on `scout-fe` · 18 test suites / 124 tests, all green and warning-free · `npm run build:dev` clean · Fluent UI removed. Every task passed an independent spec + quality review; 4 tasks needed fix rounds (all caught by reviewers, all resolved and re-verified).
+**Numbers:** 18 plan tasks · 23 feature/fix commits on `scout-fe` (21 from the build + 2 from the final-review fix wave) · 18 test suites / 131 tests, all green and warning-free · `npm run build:dev` clean · Fluent UI removed. Every task passed an independent spec + quality review; 4 tasks needed fix rounds (all caught by reviewers, all resolved and re-verified).
 
 ## 🎓 Design decisions (one line each, with the why)
 
@@ -58,7 +58,7 @@ src/taskpane/
 
 ## 🔄 How the flows run
 
-**Backend swap:** `app.config.js` → `dataSource: "http"` + real `apiBaseUrl`/`wsUrl`. Container then wires `overseerClient` (Bearer token on every call) + `wsGateway` (reconnecting `/ws`, events `sync.completed` / `order.updated` / `discrepancy.found`) + office email context; everything above the ports is untouched.
+**Backend swap:** `app.config.js` → `dataSource: "http"` + real `apiBaseUrl`/`wsUrl`. Container then wires `overseerClient` (Bearer token on every call) + `wsGateway` (reconnecting `/ws`, events `sync.completed` / `order.updated` / `discrepancy.found`) + office email context; everything above the ports is untouched. (Transport level only — the screens still need the httpRepos row→view-model mapping, gap #9.)
 
 **Otto (new email):** banner appears when `emailContext.getOpenEmail()` + `POST /otto/scans` succeed (mock: seeded Maria Chen email) → Review shows `extractedFields`, edits stay in controller state → ERP choice → Excel branch shows the scan's ranked `destinations` (BEST MATCH first) → confirm → `POST /otto/scans/{scanId}/record` with the **user-edited** fields (never the stored extraction — same human-in-the-loop rule as the backend) → Verify links the returned `webUrl`.
 
@@ -68,7 +68,7 @@ src/taskpane/
 
 ## ✅ State of the system
 
-- **Proven (automated):** 124/124 tests in 18 suites, output pristine · adapter contract tests pin every documented Overseer path, method, body, auth header, and error mapping · machine tests cover every transition + back-arrow · RTL flows drive real container wiring end-to-end (sign-in → onboarding → all four tabs → full Otto record paths → checkup CRUD → audit dismiss + compose fallback + realtime toast) · `npm run build:dev` exit 0 · no Fluent references remain.
+- **Proven (automated):** 131/131 tests in 18 suites, output pristine · adapter contract tests pin every documented Overseer path, method, body, auth header, and error mapping · machine tests cover every transition + back-arrow · RTL flows drive real container wiring end-to-end (sign-in → onboarding → all four tabs → full Otto record paths → checkup CRUD → audit dismiss + compose fallback + realtime toast) · `npm run build:dev` exit 0 · no Fluent references remain.
 - **Proven (controller-verified):** full suite re-run independently after the parallel-pipeline phase; every task's diff reviewed by an independent reviewer with the ledger recording verdicts and fix rounds.
 - **Not yet proven:** real Outlook sideload (`npm start`) and the browser visual pass — Julian tests iteratively; `npm run dev-server` → https://localhost:3000/taskpane.html is the loop. HTTP mode against a *deployed* Overseer (no deployment exists yet). Real SSO (no Azure registration). Pixel-fidelity beyond reviewer spot-checks.
 
@@ -85,15 +85,16 @@ src/taskpane/
 6. **Wire old-email record to the backend** — the tab flow is currently nav-only (prototype parity, no `recordScan` call), pending #5; when the listing lands, reuse `recordScan` exactly like the overlay flow.
 7. **Per-flow PATCH for check-ups** — pausing a 3-step flow is 3 requests today (BE Checkups gap #4); a `flowId`-level PATCH collapses the adapter loop.
 8. **Step/flow read model** — `GET /checkups` rows can't reconstruct UI steps, so http-mode `listFlows` returns `steps: []` and step-editing maps to cancel + recreate (spec §11.4). Fine for MVP; a richer read model fixes it properly.
-9. **New-sheet record + NetSuite/QuickBooks targets** — backend is Excel-first; both complete in mock only. Ports are function-named (`recordScan`), so new adapters slot in without UI changes.
+9. **http render-readiness** — screens bind seed-shaped view-model fields the BE DTOs don't carry (orders: `timingLine`/`lastMessenger`; discrepancies: `threadLabel`/`initials`/`contactEmail`/`draftReply`; otto destinations: `subtitle`/`isBestMatch`/`matchNote`; checkup flows: `poNumber`/`initials`/`next`) — needs a row→view-model mapping layer in `httpRepos` (reuse `flowInitials`, add a timingLine-for-orders rule) when Overseer deploys.
+10. **New-sheet record + NetSuite/QuickBooks targets** — backend is Excel-first; both complete in mock only. Ports are function-named (`recordScan`), so new adapters slot in without UI changes.
 
 **What was missed / discovered along the way (candor section):**
-10. **node_modules was committed in the repo's very first commit** — ~119k files rode into git history and got pushed to GitHub before it was caught mid-build. Untracked now (`d641f7912`), but **history still carries the blobs**; if repo size annoys you, a one-time history rewrite (`git filter-repo --path node_modules --invert-paths`) + force-push while the repo has no other consumers is the fix.
-11. **The `~/.gitconfig` HTTPS→SSH rewrite came back** — your BE doc's Git/SSH fix (remove `url.git@github.com:.insteadOf`) had been undone by something on the machine (line 6 of `~/.gitconfig` still shows the commented-out copy from last time; line 52 had a live one again). This repo is now immune via a **local** counter-rewrite, but find what keeps re-adding the global rule or every new repo will hit it.
-12. **The design's checkup step model doesn't exist in the backend** — the UI edits heterogeneous steps per vendor; Overseer expands one message × cadence. This is a real design↔backend gap (see #8), absorbed in the adapter for now. Worth an explicit product decision before multi-step flows matter.
-13. **Prototype quirks shipped faithfully (flag to design):** the timing line renders `· EVERY WEEKLY` (the prototype's own string-builder does this); the Orders header says `10 ACTIVE ORDERS` over 4 seeded cards and Audit says `MONITORING 8 ORDERS` (both literals from the mocks); `Re-run audits` just refetches (visual no-op in the prototype).
-14. **Lint debt:** `office-addin-lint` doesn't cover `.jsx`, and the pre-existing baseline is ~504 errors (prettier + browser globals config). One dedicated lint-config chore would make `npm run lint` meaningful for this codebase.
-15. **Minor review-triage backlog** (aggregated from per-task reviews, none blocking): keyboard accessibility for clickable `div` cards (Card/FieldCard/Checklist rows); no `RECORD_FAILED`-branch tests for the three record actions; latent `OttoFileConfirm` crash if a failed new-sheet record ever routes back with `selectedFileIndex 2` (unreachable today — add a guard); mock list methods return live db references (scan clones, lists don't); `try/catch NETWORK` boilerplate ×15 could be one helper; `createRealtimeUsecases` lives in `session.js`; dead `ordersCountLabel` in seed; `Result` JSDoc typedef undefined; realtime effect has no cleanup/unsubscribe; toast demo delay (8s) needs a production decision.
+11. **node_modules was committed in the repo's very first commit** — ~119k files rode into git history and got pushed to GitHub before it was caught mid-build. Untracked now (`d641f7912`), but **history still carries the blobs**; if repo size annoys you, a one-time history rewrite (`git filter-repo --path node_modules --invert-paths`) + force-push while the repo has no other consumers is the fix.
+12. **The `~/.gitconfig` HTTPS→SSH rewrite came back** — your BE doc's Git/SSH fix (remove `url.git@github.com:.insteadOf`) had been undone by something on the machine (line 6 of `~/.gitconfig` still shows the commented-out copy from last time; line 52 had a live one again). This repo is now immune via a **local** counter-rewrite, but find what keeps re-adding the global rule or every new repo will hit it.
+13. **The design's checkup step model doesn't exist in the backend** — the UI edits heterogeneous steps per vendor; Overseer expands one message × cadence. This is a real design↔backend gap (see #8), absorbed in the adapter for now. Worth an explicit product decision before multi-step flows matter.
+14. **Prototype quirks shipped faithfully (flag to design):** the timing line renders `· EVERY WEEKLY` (the prototype's own string-builder does this); the Orders header says `10 ACTIVE ORDERS` over 4 seeded cards and Audit says `MONITORING 8 ORDERS` (both literals from the mocks); `Re-run audits` just refetches (visual no-op in the prototype).
+15. **Lint debt:** `office-addin-lint` doesn't cover `.jsx`, and the pre-existing baseline is ~504 errors (prettier + browser globals config). One dedicated lint-config chore would make `npm run lint` meaningful for this codebase.
+16. **Minor review-triage backlog** (aggregated from per-task reviews, none blocking — the final-review fix wave has since resolved: keyboard a11y for clickable cards/rows, `RECORD_FAILED` surfacing + tests, the `OttoFileConfirm` destination guard, and the malformed mock demo event). Still open: mock list methods return live db references (scan clones, lists don't); `try/catch NETWORK` boilerplate ×15 could be one helper; `createRealtimeUsecases` lives in `session.js`; dead `ordersCountLabel` in seed; `Result` JSDoc typedef undefined; realtime effect has no cleanup/unsubscribe; toast demo delay (8s) needs a production decision.
 
 ## 🗺 What's next (ordered)
 
@@ -101,9 +102,9 @@ src/taskpane/
 2. **Final whole-branch review** (running as part of this build's close-out) → fix wave → merge `scout-fe` → `main` (or PR, Julian's call).
 3. **Deploy Overseer** → flip `dataSource`, live-test orders sync + `/ws` events end-to-end (first real integration test).
 4. **Azure registration** → `sso` mode + manifest `WebApplicationInfo` → real token flow (Overseer validates properly when its refresh-token work lands).
-5. **Backend fast-follows** in this order of FE leverage: `GET /otto/scans` (#5, unlocks #6) → per-flow PATCH (#7) → step read model (#8).
-6. **Hardening sprint:** RECORD_FAILED tests, keyboard a11y, lint chore, the destination guard, realtime cleanup — one small task, most items are one-liners.
-7. **Optional:** git history purge of node_modules (#10).
+5. **Backend fast-follows** in this order of FE leverage: `GET /otto/scans` (#5, unlocks #6) → per-flow PATCH (#7) → step read model (#8) → httpRepos render mapping (#9, FE-side, when the DTOs are live to map against).
+6. **Hardening sprint:** lint chore, realtime cleanup, remaining backlog one-liners (see #16 — RECORD_FAILED tests, keyboard a11y, and the destination guard already landed in the final-review fix wave).
+7. **Optional:** git history purge of node_modules (#11).
 
 ---
 

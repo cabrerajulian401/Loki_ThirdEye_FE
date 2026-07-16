@@ -8,7 +8,7 @@ Loki is the ThirdEye initiative building **Scout**: an AI procurement assistant 
 
 | Half | Codename | Stack | Repo / location | State |
 |---|---|---|---|---|
-| Frontend (this repo) | **Loki FE / Scout** | React 18 + JS, Office Add-in (Mail), webpack, Jest+RTL | `github.com/cabrerajulian401/Loki_ThirdEye_FE` (branch `scout-fe`) | Feature-complete in mock mode; HTTP adapters contract-ready; 124 tests green |
+| Frontend (this repo) | **Loki FE / Scout** | React 18 + JS, Office Add-in (Mail), webpack, Jest+RTL | `github.com/cabrerajulian401/Loki_ThirdEye_FE` (branch `scout-fe`) | Feature-complete in mock mode; HTTP adapters transport-contract-ready (render mapping pending); 131 tests green |
 | Backend | **Overseer** | Go (Echo), Postgres (pgx/dbmate), Microsoft Graph, Anthropic LLM | `github.com/cabrerajulian401/Overseer-ThirdEye` (feature branches/PRs) | All four features built + tested (300+ tests across docs); **not deployed** |
 
 Both halves are built in the same clean-architecture discipline: entities/domain at the center, use cases over ports, adapters at the edge, composition root wiring — so each side can swap integrations (mock↔HTTP on the FE; Excel↔QuickBooks↔NetSuite gateways on the BE) without touching business logic.
