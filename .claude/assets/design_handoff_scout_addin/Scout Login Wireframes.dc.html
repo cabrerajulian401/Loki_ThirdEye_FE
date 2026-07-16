@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#9a9a9a;}
+  *{box-sizing:border-box;}
+  ::selection{background:#141414;color:#fff;}
+</style>
+</helmet>
+
+<div style="position:absolute;left:80px;top:52px;width:820px;font-family:'Public Sans',system-ui,sans-serif;color:#111">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#222">Scout · ThirdEye</div>
+  <div style="font-size:42px;font-weight:800;letter-spacing:-.02em;margin:8px 0 0">Outlook Add-In — Onboarding</div>
+  <div style="font-size:15px;color:#3a3a3a;margin-top:10px;max-width:680px;line-height:1.5">Black &amp; white wireframes for first-run setup. Chosen direction: a setup checklist that signs the user in, orients them, and connects their records before landing on Suppliers. Every screen is the real Outlook task-pane width (340px).</div>
+  <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:11px">
+    <span style="border:1px solid #444;border-radius:999px;padding:4px 11px;background:#fff">MICROSOFT SSO</span>
+    <span style="border:1px solid #444;border-radius:999px;padding:4px 11px;background:#fff">SETUP CHECKLIST</span>
+    <span style="border:1px solid #444;border-radius:999px;padding:4px 11px;background:#fff">B&amp;W</span>
+  </div>
+</div>
+
+<sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:980px;top:60px;width:240px;background:#fef4a8;padding:14px 15px;font-family:'Public Sans',sans-serif;font-size:12.5px;line-height:1.5;color:#3a3320;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(-1.2deg)">
+  <b>PRD goals:</b> extremely legible, sleek, not aggressive, distinct from email. Type is Public Sans; pane uses lots of white space and a single ink color so Scout never competes with the message.
+</div>
+</sc-if>
+
+<sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:80px;top:250px;width:1160px;font-family:'Public Sans',sans-serif">
+  <div data-drags-parent="1" style="margin-bottom:14px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:#222">HOW IT DOCKS IN OUTLOOK</div>
+    <div style="font-size:13px;color:#2c2c2c;margin-top:4px">Scout opens in the standard right-hand task pane — narrow, scrollable, alongside the open message. First run lands on the welcome + sign-in.</div>
+  </div>
+
+  <div style="width:1140px;height:680px;background:#fff;border:1px solid #c9c9c9;border-radius:10px;box-shadow:0 10px 34px rgba(0,0,0,.2);overflow:hidden;display:flex;flex-direction:column;color:#1c1c1c">
+    <div style="height:38px;flex:0 0 38px;background:#f3f3f3;border-bottom:1px solid #e2e2e2;display:flex;align-items:center;gap:12px;padding:0 14px">
+      <div style="width:20px;height:20px;display:flex;align-items:center;justify-content:center"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2f2f2f" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M3 6l9 7 9-7"/></svg></div>
+      <span style="font-weight:700;font-size:13px">Outlook</span>
+      <div style="flex:1;max-width:420px;margin:0 auto;height:22px;border:1px solid #d6d6d6;border-radius:5px;background:#fff;display:flex;align-items:center;padding:0 10px;color:#9a9a9a;font-size:11px">Search</div>
+      <div style="width:24px;height:24px;border-radius:50%;background:#dcdcdc;border:1px solid #c4c4c4"></div>
+    </div>
+    <div style="height:40px;flex:0 0 40px;border-bottom:1px solid #ededed;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:11px;color:#444">
+      <span style="border:1px solid #d6d6d6;border-radius:5px;padding:5px 12px;background:#fff;font-weight:600">+ New mail</span>
+      <span style="border:1px solid #ededed;border-radius:5px;padding:5px 10px;color:#777">Reply</span>
+      <span style="border:1px solid #ededed;border-radius:5px;padding:5px 10px;color:#777">Archive</span>
+      <span style="border:1px solid #ededed;border-radius:5px;padding:5px 10px;color:#777">Delete</span>
+      <span style="margin-left:auto;border:1px solid #2f2f2f;border-radius:5px;padding:5px 11px;background:#fff;font-weight:700;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1c1c1c" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#1c1c1c" stroke="none"/></svg>Scout</span>
+    </div>
+    <div style="flex:1;display:flex;min-height:0">
+      <div style="width:170px;flex:0 0 170px;background:#fafafa;border-right:1px solid #ededed;padding:14px 12px;font-size:12px;color:#444">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:#9a9a9a;margin-bottom:8px">FAVORITES</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;justify-content:space-between;font-weight:700;color:#111">Inbox <span style="font-weight:600;color:#777">12</span></div>
+          <div>Drafts</div>
+          <div>Sent Items</div>
+          <div>Deleted Items</div>
+          <div style="height:1px;background:#e7e7e7;margin:6px 0"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;color:#9a9a9a">FOLDERS</div>
+          <div>Suppliers</div>
+          <div>Purchase Orders</div>
+          <div>Logistics</div>
+        </div>
+      </div>
+      <div style="width:300px;flex:0 0 300px;border-right:1px solid #ededed;display:flex;flex-direction:column;min-height:0">
+        <div style="padding:11px 14px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:13px">Inbox</span>
+          <span style="font-size:11px;color:#888">Filter ▾</span>
+        </div>
+        <div style="flex:1;overflow:hidden">
+          <div style="padding:12px 14px;border-bottom:1px solid #f3f3f3;border-left:3px solid #1c1c1c;background:#f7f7f7">
+            <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="font-weight:700">Maria Chen · Acme Steel</span><span style="color:#999;font-size:10.5px">9:14a</span></div>
+            <div style="font-weight:600;font-size:12px;margin-top:3px">RE: PO #4471 — revised ship date</div>
+            <div style="font-size:11.5px;color:#888;margin-top:3px;line-height:1.35">We can ship 120 units of the 3/8″ plate on Jul 2 instead of Jun 28 — one line item…</div>
+          </div>
+          <div style="padding:12px 14px;border-bottom:1px solid #f3f3f3">
+            <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="font-weight:600">Vance Components</span><span style="color:#aaa;font-size:10.5px">Tue</span></div>
+            <div style="font-size:12px;margin-top:3px;color:#444">Quote request — bracket assy</div>
+            <div style="height:8px;background:#f0f0f0;border-radius:3px;margin-top:6px;width:80%"></div>
+          </div>
+          <div style="padding:12px 14px;border-bottom:1px solid #f3f3f3">
+            <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="font-weight:600">Orbit Packaging</span><span style="color:#aaa;font-size:10.5px">Mon</span></div>
+            <div style="font-size:12px;margin-top:3px;color:#444">Delivered: order #4459</div>
+            <div style="height:8px;background:#f0f0f0;border-radius:3px;margin-top:6px;width:65%"></div>
+          </div>
+          <div style="padding:12px 14px;border-bottom:1px solid #f3f3f3">
+            <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="font-weight:600">Delmar Tooling</span><span style="color:#aaa;font-size:10.5px">Jun 24</span></div>
+            <div style="font-size:12px;margin-top:3px;color:#444">Re: lead time on order #4472</div>
+            <div style="height:8px;background:#f0f0f0;border-radius:3px;margin-top:6px;width:72%"></div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;border-right:1px solid #ededed">
+        <div style="padding:16px 18px;border-bottom:1px solid #f0f0f0">
+          <div style="font-size:15px;font-weight:700">RE: PO #4471 — revised ship date</div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:10px">
+            <div style="width:30px;height:30px;border-radius:50%;background:#e2e2e2"></div>
+            <div style="font-size:12px"><b>Maria Chen</b> · Acme Steel<br><span style="color:#999">to me · 9:14 AM</span></div>
+          </div>
+        </div>
+        <div style="padding:16px 18px;font-size:12.5px;line-height:1.6;color:#3a3a3a">
+          <p style="margin:0 0 11px">Hi — thanks for the order. Quick update on <b>PO #4471</b>:</p>
+          <p style="margin:0 0 11px">We can ship 120 units of the 3/8″ plate on <b>Jul 2</b> instead of Jun 28 — one line item is back-ordered. Pricing holds at $42.50/unit. Revised PO attached.</p>
+          <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid #d8d8d8;border-radius:6px;padding:7px 11px;font-size:11.5px;color:#444;margin-top:2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12l-9 9a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"/></svg>PO-4471-rev.pdf</div>
+        </div>
+      </div>
+      <div style="width:340px;flex:0 0 340px;background:#fff;border-left:1px solid #d8d8d8;display:flex;flex-direction:column;min-height:0;box-shadow:-6px 0 18px rgba(0,0,0,.05)">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg>
+          <span style="font-weight:800;font-size:14px;letter-spacing:-.01em">Scout</span>
+          <span style="margin-left:auto;color:#bbb;font-size:16px">×</span>
+        </div>
+        <div style="flex:1;padding:24px 20px;display:flex;flex-direction:column;overflow:hidden">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="M16.5 7.5 L12 12"/></svg>
+          <div style="font-size:22px;font-weight:800;margin-top:14px;letter-spacing:-.01em">Welcome to Scout</div>
+          <div style="font-size:12.5px;color:#5a5a5a;line-height:1.5;margin-top:9px">Let's get you set up — it takes about a minute. Sign in to start, then skim what Scout does below.</div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;margin-top:16px"><svg width="16" height="16" viewBox="0 0 16 16"><rect x="0" y="0" width="7" height="7" fill="#fff"/><rect x="9" y="0" width="7" height="7" fill="#cfcfcf"/><rect x="0" y="9" width="7" height="7" fill="#9a9a9a"/><rect x="9" y="9" width="7" height="7" fill="#777"/></svg>Sign in with Microsoft</button>
+          <div style="height:1px;background:#eee;margin:20px 0 16px"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#9a9a9a;margin-bottom:14px">WHAT SCOUT DOES</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg><div><div style="font-size:13px;font-weight:700">Otto-Mode</div><div style="font-size:11.5px;color:#666;line-height:1.45">Reads emails, drafts ERP updates for your OK.</div></div></div>
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18 M8 3v3 M16 3v3 M9 14l2.2 2.2L15.5 12"/></svg><div><div style="font-size:13px;font-weight:700">Check-ups</div><div style="font-size:11.5px;color:#666;line-height:1.45">Scheduled check-up emails to every vendor.</div></div></div>
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M20 20l-5-5 M8 9.5h5 M8 12h3"/></svg><div><div style="font-size:13px;font-weight:700">Thread Audit</div><div style="font-size:11.5px;color:#666;line-height:1.45">Flags price, date &amp; item discrepancies.</div></div></div>
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8.2 5 2 5 4.5"/></svg><div><div style="font-size:13px;font-weight:700">Team Threads</div><div style="font-size:11.5px;color:#666;line-height:1.45">Share threads &amp; doc access across the team.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<div style="position:absolute;left:80px;top:1010px;width:1600px;font-family:'Public Sans',sans-serif;color:#141414">
+  <div data-drags-parent="1" style="margin-bottom:18px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:#222">THE FLOW · CHOSEN DIRECTION</div>
+    <div style="font-size:24px;font-weight:800;margin-top:4px;letter-spacing:-.01em">Setup checklist</div>
+    <div style="font-size:13px;color:#4a4a4a;margin-top:4px;max-width:640px">Welcome &amp; sign in → a checklist of setup tasks the user works through at their own pace → connect records → land on Suppliers with setup progress carried over.</div>
+  </div>
+  <div style="display:flex;gap:38px;align-items:flex-start">
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">01 · Welcome</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:24px 22px;display:flex;flex-direction:column;overflow:hidden">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="M16.5 7.5 L12 12"/></svg>
+          <div style="font-size:22px;font-weight:800;margin-top:14px">Welcome to Scout</div>
+          <div style="font-size:12.5px;color:#5a5a5a;line-height:1.5;margin-top:9px">Let's get you set up — it takes about a minute. Sign in to start, then skim what Scout does below.</div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;margin-top:16px"><svg width="16" height="16" viewBox="0 0 16 16"><rect x="0" y="0" width="7" height="7" fill="#fff"/><rect x="9" y="0" width="7" height="7" fill="#cfcfcf"/><rect x="0" y="9" width="7" height="7" fill="#9a9a9a"/><rect x="9" y="9" width="7" height="7" fill="#777"/></svg>Sign in with Microsoft</button>
+          <div style="height:1px;background:#eee;margin:20px 0 16px"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#9a9a9a;margin-bottom:14px">WHAT SCOUT DOES</div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg><div><div style="font-size:13px;font-weight:700">Otto-Mode</div><div style="font-size:11.5px;color:#666;line-height:1.45">Reads emails, drafts ERP updates for your OK.</div></div></div>
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9h18 M8 3v3 M16 3v3 M9 14l2.2 2.2L15.5 12"/></svg><div><div style="font-size:13px;font-weight:700">Check-ups</div><div style="font-size:11.5px;color:#666;line-height:1.45">Scheduled check-up emails to every vendor.</div></div></div>
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M20 20l-5-5 M8 9.5h5 M8 12h3"/></svg><div><div style="font-size:13px;font-weight:700">Thread Audit</div><div style="font-size:11.5px;color:#666;line-height:1.45">Flags price, date &amp; item discrepancies.</div></div></div>
+            <div style="display:flex;gap:11px"><svg width="20" height="20" style="flex:0 0 20px;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="17" cy="9" r="2.3"/><path d="M15.5 14.5c2.8.2 5 2 5 4.5"/></svg><div><div style="font-size:13px;font-weight:700">Team Threads</div><div style="font-size:11.5px;color:#666;line-height:1.45">Share threads &amp; doc access across the team.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">02 · Checklist</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:24px 20px;display:flex;flex-direction:column">
+          <div style="font-size:18px;font-weight:800">Finish setting up</div>
+          <div style="font-size:12px;color:#8a8a8a;margin-top:3px">A few quick steps to get the most out of Scout.</div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:16px"><div style="flex:1;height:7px;border-radius:9px;background:#eee;overflow:hidden"><div style="width:25%;height:7px;background:#141414"></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#666">1 / 4</span></div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:22px">
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #eee;border-radius:9px;padding:13px 12px"><div style="width:22px;height:22px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 22px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></div><span style="font-size:13px;color:#999;text-decoration:line-through;flex:1">Sign in with Microsoft</span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1.5px solid #141414;border-radius:9px;padding:13px 12px"><div style="width:22px;height:22px;border-radius:50%;border:1.5px solid #141414;flex:0 0 22px"></div><div style="flex:1"><div style="font-size:13px;font-weight:700">Connect your ERP</div><div style="font-size:10.5px;color:#8a8a8a">Sync orders to NetSuite, QuickBooks…</div></div><span style="color:#999;font-size:15px">›</span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #e7e7e7;border-radius:9px;padding:13px 12px"><div style="width:22px;height:22px;border-radius:50%;border:1.5px solid #cfcfcf;flex:0 0 22px"></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#444">Turn on Otto-Mode</div><div style="font-size:10.5px;color:#aaa">Let Scout read &amp; draft updates</div></div><span style="color:#cfcfcf;font-size:15px">›</span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #e7e7e7;border-radius:9px;padding:13px 12px"><div style="width:22px;height:22px;border-radius:50%;border:1.5px solid #cfcfcf;flex:0 0 22px"></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:#444">Invite your team</div><div style="font-size:10.5px;color:#aaa">Share threads &amp; documents</div></div><span style="color:#cfcfcf;font-size:15px">›</span></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="text-align:center;font-size:11px;color:#9a9a9a;line-height:1.45">You can finish these anytime from Settings.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">03 · Connect ERP</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Connect your ERP</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:24px 20px;display:flex;flex-direction:column">
+          <div style="font-size:12.5px;color:#5a5a5a;line-height:1.5">Pick where Scout writes order data. Otto-Mode and Checkups use this connection.</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+            <div style="display:flex;align-items:center;gap:11px;border:1.5px solid #141414;border-radius:9px;padding:12px"><div style="width:30px;height:30px;border:1px solid #ddd;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.5"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6 M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></svg></div><span style="font-size:13px;font-weight:700;flex:1">NetSuite</span><span style="width:16px;height:16px;border-radius:50%;border:5px solid #141414;flex:0 0 16px"></span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #e2e2e2;border-radius:9px;padding:12px"><div style="width:30px;height:30px;border:1px solid #e2e2e2;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10 M14.6 9c-.6-.8-1.6-1.1-2.6-1.1-1.4 0-2.5.8-2.5 2 0 2.7 5.2 1.5 5.2 4.2 0 1.2-1.1 2-2.6 2-1.1 0-2.1-.4-2.7-1.2"/></svg></div><span style="font-size:13px;font-weight:600;color:#444;flex:1">QuickBooks</span><span style="width:16px;height:16px;border-radius:50%;border:1px solid #cfcfcf;flex:0 0 16px"></span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #e2e2e2;border-radius:9px;padding:12px"><div style="width:30px;height:30px;border:1px solid #e2e2e2;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18 M3 15h18 M9 9.5v10.5 M15 9.5v10.5"/></svg></div><span style="font-size:13px;font-weight:600;color:#444;flex:1">Excel / Sheets</span><span style="width:16px;height:16px;border-radius:50%;border:1px solid #cfcfcf;flex:0 0 16px"></span></div>
+          </div>
+          <div style="flex:1"></div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer">Connect &amp; continue</button>
+          <div style="text-align:center;font-size:11.5px;color:#999;margin-top:10px">Step 2 of 4 · next: Otto-Mode</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">04 · Home (Orders)</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+
+        <div style="margin:12px 14px 0;border:1px solid #ededed;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:11px">
+          <svg width="28" height="28" viewBox="0 0 36 36" style="flex:0 0 28px"><circle cx="18" cy="18" r="14" fill="none" stroke="#ececec" stroke-width="4"/><circle cx="18" cy="18" r="14" fill="none" stroke="#141414" stroke-width="4" stroke-dasharray="88" stroke-dashoffset="22" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">Finish setup · 3 of 4</div><div style="font-size:10.5px;color:#8a8a8a">1 task left — invite your team</div></div>
+          <span style="color:#141414;font-size:15px">›</span>
+        </div>
+
+        <div style="padding:14px 16px 8px;display:flex;align-items:flex-end;justify-content:space-between">
+          <div>
+            <div style="font-size:18px;font-weight:800;letter-spacing:-.01em">Orders</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#9a9a9a;margin-top:2px">10 ACTIVE ORDERS</div>
+          </div>
+          <span style="font-size:11px;color:#666;border:1px solid #e2e2e2;border-radius:7px;padding:5px 9px;display:flex;align-items:center;gap:5px">Sort: Status ▾</span>
+        </div>
+
+        <div style="padding:0 16px 12px;display:flex;gap:7px">
+          <span style="font:600 11px 'Public Sans',sans-serif;background:#141414;color:#fff;border-radius:999px;padding:5px 12px">All</span>
+          <span style="font:600 11px 'Public Sans',sans-serif;border:1px solid #e0e0e0;color:#555;border-radius:999px;padding:5px 12px">Delayed</span>
+          <span style="font:600 11px 'Public Sans',sans-serif;border:1px solid #e0e0e0;color:#555;border-radius:999px;padding:5px 12px">On-time</span>
+        </div>
+
+        <div style="flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:9px">
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-weight:800;font-size:13.5px;letter-spacing:-.01em">PO #4472</span><span style="background:#141414;color:#fff;border-radius:999px;padding:2px 9px;font:700 9px 'JetBrains Mono',monospace;letter-spacing:.04em;white-space:nowrap;flex:0 0 auto">DELAYED</span></div>
+            <div style="font-size:11.5px;color:#666;font-weight:600;margin-top:3px">Delmar Tooling</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#777"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg>Est. Jun 28 <span style="color:#141414;font-weight:600">→ Jul 2</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px"><span style="font-size:11px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0"><b style="font-weight:600;color:#444">Ray:</b> “Confirming a revised lead time shortly.”</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#aaa;flex:0 0 auto">Jun 24</span></div>
+          </div>
+
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-weight:800;font-size:13.5px;letter-spacing:-.01em">PO #4468</span><span style="border:1px solid #d0d0d0;color:#555;border-radius:999px;padding:2px 9px;font:600 9px 'JetBrains Mono',monospace;letter-spacing:.04em;white-space:nowrap;flex:0 0 auto">QUOTE PENDING</span></div>
+            <div style="font-size:11.5px;color:#666;font-weight:600;margin-top:3px">Vance Components</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#999"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg>Est. Jul 8 · awaiting quote</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px"><span style="font-size:11px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0"><b style="font-weight:600;color:#444">You:</b> “Following up on the bracket quote.”</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#aaa;flex:0 0 auto">Jun 25</span></div>
+          </div>
+
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-weight:800;font-size:13.5px;letter-spacing:-.01em">PO #4471</span><span style="border:1px solid #d0d0d0;color:#333;border-radius:999px;padding:2px 9px;font:600 9px 'JetBrains Mono',monospace;letter-spacing:.04em;white-space:nowrap;flex:0 0 auto">ON-TIME</span></div>
+            <div style="font-size:11.5px;color:#666;font-weight:600;margin-top:3px">Acme Steel</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#999"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="13" height="9" rx="1"/><path d="M14 9h4l3 3v3h-7z"/><circle cx="5.5" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>Est. Jul 2</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px"><span style="font-size:11px;color:#666;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0"><b style="font-weight:600;color:#444">Maria:</b> “Shipping Jul 2 — one line item back-ordered.”</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#aaa;flex:0 0 auto">Jun 27</span></div>
+          </div>
+
+          <div style="border:1px solid #f0f0f0;border-radius:9px;padding:11px 12px;opacity:.7">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="font-weight:800;font-size:13.5px;letter-spacing:-.01em;color:#555">PO #4459</span><span style="border:1px solid #e0e0e0;color:#999;border-radius:999px;padding:2px 9px;font:600 9px 'JetBrains Mono',monospace;letter-spacing:.04em;white-space:nowrap;flex:0 0 auto">DELIVERED</span></div>
+            <div style="font-size:11.5px;color:#777;font-weight:600;margin-top:3px">Orbit Packaging</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:7px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg>Delivered Jun 24</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px"><span style="font-size:11px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0"><b style="font-weight:600;color:#666">Orbit:</b> “Delivered — signed POD attached.”</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#bbb;flex:0 0 auto">Jun 24</span></div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 auto;border-top:1px solid #e6e6e6;display:flex;background:#fff;padding:7px 0"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 12.5V21"/></svg></span><span style="font:700 10px 'Public Sans',sans-serif;color:#141414">Orders</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Otto</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5h6v1M8.5 12.5l2 2 4-4"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Check-ups</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="position:relative;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg><span style="position:absolute;top:-4px;right:-4px;width:15px;height:15px;border-radius:50%;background:#e0242b;border:1.6px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px 'Public Sans',sans-serif;line-height:1">!</span></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Audit</span></div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="position:absolute;left:80px;top:1790px;width:3560px;font-family:'Public Sans',sans-serif;color:#141414">
+  <div data-drags-parent="1" style="margin-bottom:18px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:#222">FEATURE STATE · OTTO-MODE</div>
+    <div style="font-size:24px;font-weight:800;margin-top:4px;letter-spacing:-.01em">Otto-Mode — new &amp; old email states</div>
+    <div style="font-size:13px;color:#4a4a4a;margin-top:4px;max-width:660px">Left of the divider: the live <b>new-email cycle</b> — Scout detects data, the user confirms / edits / talks to the agent, picks the ERP, records, and verifies. Right of the divider: the <b>old-email state</b> — an Otto tab where users re-instruct Otto to record order details from dismissed or older emails.</div>
+  </div>
+  <div style="display:flex;gap:38px;align-items:flex-start">
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">01 · Email detected</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:18px 16px;display:flex;flex-direction:column">
+          <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:7px;border:1px solid #e2e2e2;border-radius:999px;padding:5px 11px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#666"><span style="width:6px;height:6px;border-radius:50%;background:#141414"></span>READING · RE: PO #4471 · Acme Steel</div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:12px;border:1px solid #ececec;border-radius:9px;padding:9px 11px"><span style="width:26px;height:26px;border-radius:50%;background:#e6e6e6;flex:0 0 26px;display:flex;align-items:center;justify-content:center;font:700 9px 'Public Sans',sans-serif;color:#666">MC</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">Maria Chen <span style="font-weight:500;color:#9a9a9a">· Acme Steel</span></div><div style="font-size:10.5px;color:#9a9a9a">maria@acmesteel.com</div></div><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">FROM</span></div>
+          <div style="margin-top:14px;border:1px solid #f0f0f0;border-radius:9px;padding:12px;background:#fafafa">
+            <div style="height:8px;background:#ececec;border-radius:3px;width:90%"></div>
+            <div style="height:8px;background:#ececec;border-radius:3px;width:78%;margin-top:7px"></div>
+            <div style="background:#fff;border:1px solid #141414;border-radius:6px;padding:8px 9px;margin-top:10px;font-size:11.5px;line-height:1.45;color:#222">…ship <b>120 units</b> of the 3/8″ plate on <b>Jul 2</b> instead of Jun 28. Pricing holds at <b>$42.50/unit</b>.</div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="border:1.5px solid #141414;border-radius:11px;padding:14px;box-shadow:0 8px 22px rgba(0,0,0,.1)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <div style="width:30px;height:30px;border-radius:8px;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg></div>
+              <div><div style="font-size:13.5px;font-weight:800">New order info detected</div><div style="font-size:11px;color:#777">5 fields ready to record</div></div>
+            </div>
+            <div style="font-size:12px;color:#5a5a5a;line-height:1.45;margin-top:10px">Scout found order details in this email it can add to your records.</div>
+            <div style="display:flex;gap:9px;margin-top:13px">
+              <button style="appearance:none;flex:0 0 auto;border:1px solid #d4d4d4;background:#fff;color:#666;font:600 12.5px 'Public Sans',sans-serif;padding:10px 14px;border-radius:7px;cursor:pointer">Dismiss</button>
+              <button style="appearance:none;flex:1;border:1px solid #141414;background:#141414;color:#fff;font:700 12.5px 'Public Sans',sans-serif;padding:10px;border-radius:7px;cursor:pointer">Review &amp; insert</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">02 · Review fields</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Found in this email</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:16px 16px 14px;display:flex;flex-direction:column">
+          <div style="font-size:11.5px;color:#8a8a8a;line-height:1.4">Check what Scout pulled out. Tap any field to edit.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:13px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a">ORDER #</div><div style="font-size:13px;font-weight:600;margin-top:2px">4471</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a">VENDOR</div><div style="font-size:13px;font-weight:600;margin-top:2px">Acme Steel</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a">ITEM</div><div style="font-size:13px;font-weight:600;margin-top:2px">3/8″ plate × 120</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a">SHIP DATE</div><div style="font-size:13px;font-weight:600;margin-top:2px">Jul 2 <span style="font:600 9px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:4px;padding:1px 5px;color:#777;vertical-align:middle">was Jun 28</span></div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a">UNIT PRICE</div><div style="font-size:13px;font-weight:600;margin-top:2px">$42.50</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:9px;margin-top:12px">
+            <button style="appearance:none;flex:0 0 auto;border:1px solid #d4d4d4;background:#fff;color:#444;font:600 12.5px 'Public Sans',sans-serif;padding:11px 13px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.5A8 8 0 1 1 21 12z"/></svg>Ask Scout</button>
+            <button style="appearance:none;flex:1;border:1px solid #141414;background:#141414;color:#fff;font:700 12.5px 'Public Sans',sans-serif;padding:11px;border-radius:7px;cursor:pointer">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">03 · Edit / ask agent</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Edit details</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:16px 16px 14px;display:flex;flex-direction:column">
+          <div style="display:flex;gap:9px;align-items:flex-start"><div style="width:26px;height:26px;flex:0 0 26px;border-radius:50%;border:1px solid #ddd;display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg></div><div style="background:#f4f4f4;border-radius:3px 12px 12px 12px;padding:10px 12px;font-size:12px;line-height:1.45">I read the ship date as <b>Jul 2</b> from "we can ship… on Jul 2." Edit it below or tell me what to change.</div></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:16px 0 6px">SHIP DATE</div>
+          <div style="display:flex;align-items:center;gap:8px;border:1.5px solid #141414;border-radius:8px;padding:10px 11px"><span style="font-size:14px;font-weight:600;flex:1">Jul 2, 2026<span style="display:inline-block;width:1px;height:15px;background:#141414;margin-left:1px;vertical-align:middle"></span></span><button style="appearance:none;border:none;background:#141414;color:#fff;border-radius:6px;font:700 11px 'Public Sans',sans-serif;padding:6px 11px;cursor:pointer">Save</button></div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">ITEM</div><div style="font-size:13px;font-weight:600;margin-top:2px">3/8″ plate × 120</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">UNIT PRICE</div><div style="font-size:13px;font-weight:600;margin-top:2px">$42.50</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:8px;align-items:center;background:#fafafa;border:1px solid #eee;border-radius:999px;padding:9px 14px"><span style="flex:1;color:#aaa;font-size:12.5px">Tell Scout what to change…</span><span style="width:24px;height:24px;border-radius:50%;background:#141414;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px">↑</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">04 · Choose ERP</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Where to record</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:20px 18px;display:flex;flex-direction:column">
+          <div style="font-size:16px;font-weight:800">Which system should I update?</div>
+          <div style="font-size:12px;color:#8a8a8a;line-height:1.45;margin-top:6px">Scout will write <b style="color:#444">Order #4471</b> and its 5 fields here.</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+            <div style="display:flex;align-items:center;gap:11px;border:1.5px solid #141414;border-radius:9px;padding:12px"><div style="width:30px;height:30px;border:1px solid #ddd;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.5"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6 M5 12c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6"/></svg></div><span style="font-size:13px;font-weight:700;flex:1">NetSuite</span><span style="width:16px;height:16px;border-radius:50%;border:5px solid #141414;flex:0 0 16px"></span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #e2e2e2;border-radius:9px;padding:12px"><div style="width:30px;height:30px;border:1px solid #e2e2e2;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10 M14.6 9c-.6-.8-1.6-1.1-2.6-1.1-1.4 0-2.5.8-2.5 2 0 2.7 5.2 1.5 5.2 4.2 0 1.2-1.1 2-2.6 2-1.1 0-2.1-.4-2.7-1.2"/></svg></div><span style="font-size:13px;font-weight:600;color:#444;flex:1">QuickBooks</span><span style="width:16px;height:16px;border-radius:50%;border:1px solid #cfcfcf;flex:0 0 16px"></span></div>
+            <div style="display:flex;align-items:center;gap:11px;border:1px solid #e2e2e2;border-radius:9px;padding:12px"><div style="width:30px;height:30px;border:1px solid #e2e2e2;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 30px"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9.5h18 M3 15h18 M9 9.5v10.5 M15 9.5v10.5"/></svg></div><span style="font-size:13px;font-weight:600;color:#444;flex:1">Excel / Sheets</span><span style="width:16px;height:16px;border-radius:50%;border:1px solid #cfcfcf;flex:0 0 16px"></span></div>
+          </div>
+          <div style="flex:1"></div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer">Record to NetSuite</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">04 · Excel — files found</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Matching files</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:18px 18px 14px;display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;gap:8px"><span style="width:22px;height:22px;border-radius:5px;background:#107c41;display:flex;align-items:center;justify-content:center;flex:0 0 22px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8l8 8 M16 8l-8 8"/></svg></span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:#107c41;font-weight:700">MICROSOFT EXCEL</span></div>
+          <div style="font-size:16px;font-weight:800;margin-top:12px">I found where this belongs</div>
+          <div style="font-size:12px;color:#8a8a8a;line-height:1.45;margin-top:6px">Scout searched your connected Excel files and found sheets already tracking <b style="color:#444">Order #4471 · Acme Steel</b>.</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:18px 0 8px">FILES FOUND</div>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <div style="border:1.5px solid #141414;border-radius:9px;padding:11px 12px">
+              <div style="display:flex;align-items:center;gap:9px"><span style="width:26px;height:26px;border-radius:6px;background:#107c41;display:flex;align-items:center;justify-content:center;flex:0 0 26px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8l8 8 M16 8l-8 8"/></svg></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Acme Steel — 2026 POs.xlsx</div><div style="font-size:10.5px;color:#9a9a9a">Sheet “Open Orders” · edited 2 days ago</div></div><span style="font:700 8px 'JetBrains Mono',monospace;background:#141414;color:#fff;border-radius:4px;padding:2px 6px;flex:0 0 auto">BEST MATCH</span></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:9px;font-size:10.5px;color:#555;background:#f6f6f6;border-radius:6px;padding:6px 8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#107c41" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 12px"><path d="M5 12l4 4 10-11"/></svg>Row for <b style="margin:0 3px;color:#222">PO #4471</b> already exists</div>
+            </div>
+            <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+              <div style="display:flex;align-items:center;gap:9px"><span style="width:26px;height:26px;border-radius:6px;border:1px solid #e2e2e2;display:flex;align-items:center;justify-content:center;flex:0 0 26px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#107c41" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8l8 8 M16 8l-8 8"/></svg></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Q3 Procurement Tracker.xlsx</div><div style="font-size:10.5px;color:#9a9a9a">Sheet “Steel Orders” · edited Jun 20</div></div><span style="color:#bbb;font-size:15px">›</span></div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:9px;font-size:10.5px;color:#555;background:#f6f6f6;border-radius:6px;padding:6px 8px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 12px"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>Matched vendor <b style="margin:0 3px;color:#222">Acme Steel</b></div>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+          <button style="appearance:none;width:100%;border:1px dashed #c4c4c4;background:#fff;color:#444;font:600 12px 'Public Sans',sans-serif;padding:11px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Record to a new sheet instead</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">04 · Excel — continue editing</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Continue editing</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:18px 18px 14px;display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;gap:9px;border:1px solid #ececec;border-radius:9px;padding:10px 12px"><span style="width:28px;height:28px;border-radius:6px;background:#107c41;display:flex;align-items:center;justify-content:center;flex:0 0 28px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8l8 8 M16 8l-8 8"/></svg></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Acme Steel — 2026 POs.xlsx</div><div style="font-size:10.5px;color:#9a9a9a">Sheet “Open Orders”</div></div></div>
+          <div style="font-size:15px;font-weight:800;margin-top:16px">Continue editing this sheet</div>
+          <div style="font-size:12px;color:#8a8a8a;line-height:1.45;margin-top:6px">Scout will keep your sheet’s exact structure — updating the existing <b style="color:#444">PO #4471</b> row in place. No new columns, no new tabs.</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:16px 0 7px">WHAT CHANGES · ROW 14</div>
+          <div style="border:1px solid #e7e7e7;border-radius:9px;overflow:hidden">
+            <div style="display:flex;background:#f6f6f6;border-bottom:1px solid #eee;font:700 9px 'JetBrains Mono',monospace;color:#9a9a9a"><span style="flex:1.2;padding:6px 8px">PO #</span><span style="flex:1;padding:6px 8px">QTY</span><span style="flex:1.1;padding:6px 8px">SHIP DATE</span><span style="flex:1;padding:6px 8px">STATUS</span></div>
+            <div style="display:flex;font-size:10.5px;color:#333;align-items:center"><span style="flex:1.2;padding:8px;font-weight:700">4471</span><span style="flex:1;padding:8px"><span style="text-decoration:line-through;color:#bbb">150</span> <b>120</b></span><span style="flex:1.1;padding:8px"><span style="text-decoration:line-through;color:#bbb">Jun 28</span> <b>Jul 2</b></span><span style="flex:1;padding:8px"><span style="background:#141414;color:#fff;border-radius:3px;padding:1px 5px;font:700 8px 'JetBrains Mono',monospace">UPD</span></span></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;margin-top:10px;font-size:11px;color:#555"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#107c41" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 13px"><path d="M5 12l4 4 10-11"/></svg>Same columns, formatting &amp; formulas preserved</div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:9px;margin-top:12px"><button style="appearance:none;flex:0 0 auto;border:1px solid #d4d4d4;background:#fff;color:#444;font:600 12px 'Public Sans',sans-serif;padding:12px 14px;border-radius:7px;cursor:pointer">Back</button><button style="appearance:none;flex:1;border:1px solid #141414;background:#141414;color:#fff;font:700 12.5px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer">Continue &amp; update sheet</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">05 · Recording</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:26px 22px;display:flex;flex-direction:column;align-items:center;text-align:center">
+          <svg width="50" height="50" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="#ececec" stroke-width="3.5"/><circle cx="18" cy="18" r="15" fill="none" stroke="#141414" stroke-width="3.5" stroke-dasharray="94" stroke-dashoffset="60" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>
+          <div style="font-size:18px;font-weight:800;margin-top:18px">Recording to NetSuite…</div>
+          <div style="font-size:12.5px;color:#5a5a5a;line-height:1.5;margin-top:8px">Scout is reading the email and writing the order data. This takes a moment.</div>
+          <div style="width:100%;display:flex;flex-direction:column;gap:11px;margin-top:24px;text-align:left">
+            <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#999"><span style="width:18px;height:18px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 18px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Read the email</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#999"><span style="width:18px;height:18px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 18px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></span>Extracted order data</div>
+            <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;color:#141414"><span style="width:18px;height:18px;border-radius:50%;border:2px solid #141414;border-top-color:#e2e2e2;flex:0 0 18px"></span>Writing to NetSuite…</div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#9a9a9a">ORDER #4471 · ACME STEEL</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">06 · Verify &amp; done</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:26px 20px 18px;display:flex;flex-direction:column;align-items:center;text-align:center">
+          <div style="width:50px;height:50px;border-radius:50%;border:2px solid #141414;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></div>
+          <div style="font-size:19px;font-weight:800;margin-top:16px">Recorded — please verify</div>
+          <div style="font-size:12.5px;color:#5a5a5a;line-height:1.5;margin-top:8px">Scout updated NetSuite. Open it to confirm everything looks right.</div>
+          <div style="width:100%;border:1px solid #ececec;border-radius:10px;padding:13px;margin-top:18px;text-align:left">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:700">Order #4471</span><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #141414;background:#141414;color:#fff;border-radius:999px;padding:2px 8px">UPDATED</span></div>
+            <div style="height:1px;background:#f0f0f0;margin:10px 0"></div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#555"><div style="display:flex;justify-content:space-between"><span style="color:#9a9a9a">Ship date</span><span style="font-weight:600;color:#222">Jul 2</span></div><div style="display:flex;justify-content:space-between"><span style="color:#9a9a9a">Quantity</span><span style="font-weight:600;color:#222">120 units</span></div><div style="display:flex;justify-content:space-between"><span style="color:#9a9a9a">Unit price</span><span style="font-weight:600;color:#222">$42.50</span></div></div>
+          </div>
+          <a style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#141414;text-decoration:none;margin-top:14px;border-bottom:1.5px solid #141414;padding-bottom:1px">Open in NetSuite <span style="font-size:14px">↗</span></a>
+          <div style="flex:1"></div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer">Verify &amp; done</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:0 0 66px;align-self:stretch;display:flex;align-items:center;justify-content:center;position:relative">
+      <div style="position:absolute;top:34px;bottom:6px;border-left:2px dashed #bdbdbd"></div>
+      <div style="writing-mode:vertical-rl;transform:rotate(180deg);font:600 10px 'JetBrains Mono',monospace;letter-spacing:.16em;color:#444;background:#fff;border:1px solid #d8d8d8;border-radius:7px;padding:12px 4px;z-index:1">OLD / DISMISSED EMAILS</div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">07 · Otto tab — older emails</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="padding:15px 16px 10px"><div style="font-size:18px;font-weight:800;letter-spacing:-.01em">Otto-Mode</div><div style="font-size:12px;color:#8a8a8a;margin-top:3px">Older &amp; dismissed emails Scout can still record — no need to dig them up yourself.</div></div>
+        <div style="flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:9px">
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-weight:700;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">RE: PO #4471 ship date</span><span style="border:1px solid #141414;color:#141414;border-radius:999px;padding:2px 8px;font:700 8.5px 'JetBrains Mono',monospace;flex:0 0 auto">DISMISSED</span></div>
+            <div style="font-size:10.5px;color:#777;line-height:1.4;margin-top:5px">Ship date moved to Jul 2 with a new unit price — order update.</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:8px"><span style="width:20px;height:20px;border-radius:50%;background:#e6e6e6;flex:0 0 20px;display:flex;align-items:center;justify-content:center;font:700 8px 'Public Sans',sans-serif;color:#666">MC</span><div style="min-width:0"><div style="font-size:10.5px;font-weight:600;line-height:1.1">Maria Chen</div><div style="font-size:9.5px;color:#9a9a9a">maria@acmesteel.com</div></div><span style="margin-left:auto;border:1.5px solid #141414;border-radius:7px;padding:5px 10px;font:700 10.5px 'Public Sans',sans-serif">Record</span></div>
+          </div>
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-weight:700;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Quote — bracket assembly</span><span style="border:1px solid #cfcfcf;color:#777;border-radius:999px;padding:2px 8px;font:700 8.5px 'JetBrains Mono',monospace;flex:0 0 auto">OLDER</span></div>
+            <div style="font-size:10.5px;color:#777;line-height:1.4;margin-top:5px">New supplier quote with pricing per unit — quote request.</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:8px"><span style="width:20px;height:20px;border-radius:50%;background:#e6e6e6;flex:0 0 20px;display:flex;align-items:center;justify-content:center;font:700 8px 'Public Sans',sans-serif;color:#666">JD</span><div style="min-width:0"><div style="font-size:10.5px;font-weight:600;line-height:1.1">Jess Dunn</div><div style="font-size:9.5px;color:#9a9a9a">jess@vancecomp.com</div></div><span style="margin-left:auto;border:1.5px solid #141414;border-radius:7px;padding:5px 10px;font:700 10.5px 'Public Sans',sans-serif">Record</span></div>
+          </div>
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font-weight:700;font-size:12.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Delivered: order #4459</span><span style="border:1px solid #cfcfcf;color:#777;border-radius:999px;padding:2px 8px;font:700 8.5px 'JetBrains Mono',monospace;flex:0 0 auto">OLDER</span></div>
+            <div style="font-size:10.5px;color:#777;line-height:1.4;margin-top:5px">Confirms delivery date for a completed order — delivery notice.</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:8px"><span style="width:20px;height:20px;border-radius:50%;background:#e6e6e6;flex:0 0 20px;display:flex;align-items:center;justify-content:center;font:700 8px 'Public Sans',sans-serif;color:#666">TS</span><div style="min-width:0"><div style="font-size:10.5px;font-weight:600;line-height:1.1">Tom Silva</div><div style="font-size:9.5px;color:#9a9a9a">tom@orbitpack.com</div></div><span style="margin-left:auto;border:1.5px solid #141414;border-radius:7px;padding:5px 10px;font:700 10.5px 'Public Sans',sans-serif">Record</span></div>
+          </div>
+        </div>
+        <div style="flex:0 0 auto;border-top:1px solid #e6e6e6;display:flex;background:#fff;padding:7px 0"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 12.5V21"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Orders</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg></span><span style="font:700 10px 'Public Sans',sans-serif;color:#141414">Otto</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5h6v1M8.5 12.5l2 2 4-4"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Check-ups</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="position:relative;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg><span style="position:absolute;top:-4px;right:-4px;width:15px;height:15px;border-radius:50%;background:#e0242b;border:1.6px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px 'Public Sans',sans-serif;line-height:1">!</span></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Audit</span></div></div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">08 · Re-instruct Otto</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Re-run on this email</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:16px 16px 14px;display:flex;flex-direction:column;overflow:hidden">
+          <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:7px;border:1px solid #141414;border-radius:999px;padding:4px 10px;font:700 9px 'JetBrains Mono',monospace">DISMISSED JUN 20 · RE-OPENED</div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:12px;border:1px solid #ececec;border-radius:9px;padding:9px 11px"><span style="width:26px;height:26px;border-radius:50%;background:#e6e6e6;flex:0 0 26px;display:flex;align-items:center;justify-content:center;font:700 9px 'Public Sans',sans-serif;color:#666">MC</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">Maria Chen <span style="font-weight:500;color:#9a9a9a">· Acme Steel</span></div><div style="font-size:10.5px;color:#9a9a9a">maria@acmesteel.com</div></div><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">FROM</span></div>
+          <div style="font-size:11.5px;color:#8a8a8a;line-height:1.4;margin-top:13px">Scout re-read the email. Confirm what to record, or tell Otto what to change.</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">ORDER #</div><div style="font-size:13px;font-weight:600;margin-top:2px">4471</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">SHIP DATE</div><div style="font-size:13px;font-weight:600;margin-top:2px">Jul 2</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">UNIT PRICE</div><div style="font-size:13px;font-weight:600;margin-top:2px">$42.50</div></div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:8px;align-items:center;background:#fafafa;border:1px solid #eee;border-radius:999px;padding:9px 14px;margin-bottom:10px"><span style="flex:1;color:#aaa;font-size:12px">Tell Otto what to record…</span><span style="width:24px;height:24px;border-radius:50%;background:#141414;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px">↑</span></div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer">Confirm &amp; choose ERP</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">09 · Recorded · verify</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:26px 20px 18px;display:flex;flex-direction:column;align-items:center;text-align:center">
+          <div style="width:50px;height:50px;border-radius:50%;border:2px solid #141414;display:flex;align-items:center;justify-content:center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"/></svg></div>
+          <div style="font-size:19px;font-weight:800;margin-top:16px">Added from older email</div>
+          <div style="font-size:12.5px;color:#5a5a5a;line-height:1.5;margin-top:8px">Scout recorded this dismissed email to NetSuite. Verify it looks right.</div>
+          <div style="width:100%;border:1px solid #ececec;border-radius:10px;padding:13px;margin-top:18px;text-align:left">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:700">Order #4471</span><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #141414;background:#141414;color:#fff;border-radius:999px;padding:2px 8px">UPDATED</span></div>
+            <div style="height:1px;background:#f0f0f0;margin:10px 0"></div>
+            <div style="display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#555"><div style="display:flex;justify-content:space-between"><span style="color:#9a9a9a">Source</span><span style="font-weight:600;color:#222">Dismissed email · Jun 20</span></div><div style="display:flex;justify-content:space-between"><span style="color:#9a9a9a">Ship date</span><span style="font-weight:600;color:#222">Jul 2</span></div><div style="display:flex;justify-content:space-between"><span style="color:#9a9a9a">Unit price</span><span style="font-weight:600;color:#222">$42.50</span></div></div>
+          </div>
+          <a style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#141414;text-decoration:none;margin-top:14px;border-bottom:1.5px solid #141414;padding-bottom:1px">Open in NetSuite <span style="font-size:14px">↗</span></a>
+          <div style="flex:1"></div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer">Verify &amp; done</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="position:absolute;left:80px;top:2600px;width:2000px;font-family:'Public Sans',sans-serif;color:#141414">
+  <div data-drags-parent="1" style="margin-bottom:16px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:#222">FEATURE · LIVE AUDIT</div>
+    <div style="font-size:26px;font-weight:800;margin-top:4px;letter-spacing:-.01em">Thread Audit — live &amp; proactive</div>
+    <div style="font-size:13px;color:#4a4a4a;margin-top:4px;max-width:740px">Scout now audits open conversations in the background. The moment it spots a price, date or quantity discrepancy it raises a notification and drops a red dot on the Audit tab. The tab is a live feed of recent findings grouped by conversation, with Run-audit and More-audits controls.</div>
+  </div>
+  <div style="display:flex;gap:38px;align-items:flex-start">
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">01 · Discrepancy detected (background)</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414"><div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+          <div style="padding:14px 16px 6px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:17px;font-weight:800">Orders</span><span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #e2e2e2;border-radius:999px;padding:4px 10px;font:600 9px 'JetBrains Mono',monospace;color:#666"><span style="width:6px;height:6px;border-radius:50%;background:#e0242b"></span>AUDITING</span></div>
+          <div style="padding:6px 16px 0;display:flex;flex-direction:column;gap:9px;opacity:.45">
+            <div style="border:1px solid #eee;border-radius:9px;padding:11px"><div style="height:8px;background:#ededed;border-radius:3px;width:55%"></div><div style="height:7px;background:#f3f3f3;border-radius:3px;width:72%;margin-top:7px"></div></div>
+            <div style="border:1px solid #eee;border-radius:9px;padding:11px"><div style="height:8px;background:#ededed;border-radius:3px;width:48%"></div><div style="height:7px;background:#f3f3f3;border-radius:3px;width:66%;margin-top:7px"></div></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="margin:0 14px 12px;border:1.5px solid #141414;border-radius:11px;padding:13px;box-shadow:0 10px 24px rgba(0,0,0,.16);background:#fff">
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:9px;height:9px;border-radius:50%;background:#e0242b;flex:0 0 9px"></span><span style="font:700 9px 'JetBrains Mono',monospace;letter-spacing:.1em;color:#9a9a9a;flex:1">AUDIT ALERT · NOW</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg></div>
+            <div style="font-size:14px;font-weight:800;margin-top:9px">Discrepancy found</div>
+            <div style="font-size:11.5px;color:#666;line-height:1.45;margin-top:4px">PO #4471 · Acme Steel — quoted <b>$41.00</b>, latest bills <b>$42.50</b>/unit.</div>
+            <div style="display:flex;gap:8px;margin-top:11px"><button style="appearance:none;flex:0 0 auto;border:1px solid #d4d4d4;background:#fff;color:#666;font:600 12px 'Public Sans',sans-serif;padding:9px 13px;border-radius:7px;cursor:pointer">Dismiss</button><button style="appearance:none;flex:1;border:1px solid #141414;background:#141414;color:#fff;font:700 12px 'Public Sans',sans-serif;padding:9px;border-radius:7px;cursor:pointer">Review finding</button></div>
+          </div>
+        </div><div style="flex:0 0 auto;border-top:1px solid #e6e6e6;display:flex;background:#fff;padding:7px 0"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 12.5V21"/></svg></span><span style="font:700 10px 'Public Sans',sans-serif;color:#141414">Orders</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Otto</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5h6v1M8.5 12.5l2 2 4-4"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Check-ups</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="position:relative;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg><span style="position:absolute;top:-4px;right:-4px;width:15px;height:15px;border-radius:50%;background:#e0242b;border:1.6px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px 'Public Sans',sans-serif;line-height:1">!</span></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Audit</span></div></div></div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">02 · Audit tab · live feed</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414"><div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="padding:14px 16px 8px;display:flex;align-items:flex-end;justify-content:space-between"><div><div style="font-size:18px;font-weight:800;letter-spacing:-.01em">Audit</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#9a9a9a;margin-top:2px">LIVE · MONITORING 8 ORDERS</div></div><span style="display:inline-flex;align-items:center;gap:5px;border:1px solid #141414;border-radius:999px;padding:4px 9px;font:700 9px 'JetBrains Mono',monospace"><span style="width:6px;height:6px;border-radius:50%;background:#e0242b"></span>ON</span></div>
+        <div style="padding:0 16px 12px"><div style="border:1px solid #ececec;border-radius:9px;padding:10px 11px;display:flex;align-items:center;gap:9px;background:#fafafa"><span style="width:26px;height:26px;border-radius:7px;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 26px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg></span><div style="font-size:11.5px;color:#444;line-height:1.35"><b>Catching discrepancies</b> before they reach your books — automatically.</div></div></div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;color:#9a9a9a;padding:0 16px 4px">RECENT FINDINGS</div>
+        <div style="flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:6px 0 0">PO #4471 · ACME STEEL · 14 MSGS</div>
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid #e7e7e7;border-radius:9px;padding:10px 11px"><span style="width:28px;height:28px;border:1px solid #e2e2e2;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 28px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10 M14.6 9c-.6-.8-1.6-1.1-2.6-1.1-1.4 0-2.5.8-2.5 2 0 2.7 5.2 1.5 5.2 4.2 0 1.2-1.1 2-2.6 2-1.1 0-2.1-.4-2.7-1.2"/></svg></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700">Price changed</div><div style="font-size:10.5px;color:#777">$41.00 → $42.50 / unit</div></div><span style="background:#141414;color:#fff;border-radius:4px;padding:1px 6px;font:700 8.5px 'JetBrains Mono',monospace;flex:0 0 auto">HIGH</span><span style="color:#bbb;font-size:14px">›</span></div>
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid #e7e7e7;border-radius:9px;padding:10px 11px"><span style="width:28px;height:28px;border:1px solid #e2e2e2;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 28px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700">Ship date slipped</div><div style="font-size:10.5px;color:#777">Jun 28 → Jul 2</div></div><span style="border:1px solid #141414;color:#141414;border-radius:4px;padding:1px 6px;font:700 8.5px 'JetBrains Mono',monospace;flex:0 0 auto">MED</span><span style="color:#bbb;font-size:14px">›</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:6px 0 0">PO #4472 · DELMAR TOOLING · 9 MSGS</div>
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid #e7e7e7;border-radius:9px;padding:10px 11px"><span style="width:28px;height:28px;border:1px solid #e2e2e2;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 28px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5 M12 13v8"/></svg></span><div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700">Quantity mismatch</div><div style="font-size:10.5px;color:#777">150 → 120 units</div></div><span style="background:#141414;color:#fff;border-radius:4px;padding:1px 6px;font:700 8.5px 'JetBrains Mono',monospace;flex:0 0 auto">HIGH</span><span style="color:#bbb;font-size:14px">›</span></div>
+        </div>
+        <div style="flex:0 0 auto;padding:12px 16px;border-top:1px solid #f3f3f3"><button style="appearance:none;width:100%;border:1px solid #141414;background:#fff;color:#141414;font:700 12px 'Public Sans',sans-serif;padding:11px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v4h-4"/></svg>Re-run audits</button></div><div style="flex:0 0 auto;border-top:1px solid #e6e6e6;display:flex;background:#fff;padding:7px 0"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 12.5V21"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Orders</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Otto</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5h6v1M8.5 12.5l2 2 4-4"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Check-ups</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="position:relative;width:34px;height:34px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg><span style="position:absolute;top:-4px;right:-4px;width:15px;height:15px;border-radius:50%;background:#e0242b;border:1.6px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px 'Public Sans',sans-serif;line-height:1">!</span></span><span style="font:700 10px 'Public Sans',sans-serif;color:#141414">Audit</span></div></div></div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">03 · Finding detail</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414"><div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Price changed</span><span style="margin-left:auto;background:#141414;color:#fff;border-radius:4px;padding:2px 7px;font:700 9px 'JetBrains Mono',monospace">HIGH</span></div>
+        <div style="margin:13px 16px 0;border:1px solid #ececec;border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px"><span style="width:28px;height:28px;border-radius:50%;background:#e6e6e6;flex:0 0 28px;display:flex;align-items:center;justify-content:center;font:700 10px 'Public Sans',sans-serif;color:#666">MC</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">PO #4471 <span style="font-weight:500;color:#9a9a9a">· Acme Steel</span></div><div style="font-size:10.5px;color:#9a9a9a">Maria Chen · maria@acmesteel.com</div></div><span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">IN THREAD</span></div>
+        <div style="flex:1;padding:14px 16px;display:flex;flex-direction:column;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:10px;border:1px solid #ececec;border-radius:9px;padding:12px;background:#fafafa"><div style="text-align:center;flex:1"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">QUOTED</div><div style="font-size:16px;font-weight:800;margin-top:2px">$41.00</div></div><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><div style="text-align:center;flex:1"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">BILLED</div><div style="font-size:16px;font-weight:800;margin-top:2px">$42.50</div></div></div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;font-size:12px;font-weight:700"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>+$1.50/unit · +$180 on 120 units</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:16px 0 8px">EVIDENCE FROM THREAD</div>
+          <div style="display:flex;flex-direction:column;gap:9px;overflow:hidden">
+            <div style="border:1px solid #eee;border-radius:8px;padding:10px 11px"><div style="display:flex;justify-content:space-between;font-size:10.5px;color:#999"><span style="font-weight:700;color:#444">Maria Chen</span><span>May 3</span></div><div style="font-size:11.5px;color:#444;line-height:1.45;margin-top:5px">"…happy to hold pricing at <b>$41.00 per unit</b> for this PO."</div></div>
+            <div style="border:1px solid #141414;border-radius:8px;padding:10px 11px"><div style="display:flex;justify-content:space-between;font-size:10.5px;color:#999"><span style="font-weight:700;color:#141414">Maria Chen</span><span>Jun 27</span></div><div style="font-size:11.5px;color:#222;line-height:1.45;margin-top:5px">"Pricing holds at <b>$42.50/unit</b>. Revised PO attached."</div></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:16px 0 8px">DRAFT A REPLY</div>
+          <div style="font-size:11px;color:#777;line-height:1.45;margin-bottom:9px">Scout has a reply ready. Click the address to open it in Outlook — review &amp; send from there.</div>
+          <button style="appearance:none;cursor:pointer;width:100%;border:1px solid #141414;background:#141414;color:#fff;border-radius:8px;padding:11px 13px;display:flex;align-items:center;gap:10px;text-align:left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 16px"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M3 6.5l9 6 9-6"/></svg><span style="flex:1;min-width:0;font:700 12.5px 'Public Sans',sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">maria@acmesteel.com</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 14px"><path d="M7 17L17 7M9 7h8v8"/></svg></button>
+          <button style="appearance:none;cursor:pointer;width:100%;margin-top:8px;border:1px solid #d4d4d4;background:#fff;color:#666;font:600 12px 'Public Sans',sans-serif;padding:10px;border-radius:7px">Dismiss</button>
+        </div></div>
+    </div>
+
+    <div style="width:480px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">04 · Reply opens in Outlook — not the pane</p>
+      <div style="width:480px;background:#eef0f2;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;padding:26px 22px 0;display:flex;flex-direction:column;align-items:flex-end">
+        <div style="align-self:stretch;font-size:11px;color:#8a8a8a;line-height:1.45;margin-bottom:16px">Clicking the address hands off to Outlook: a pre-filled message window opens in the mail app, outside the add-in pane. The user reviews and sends there — nothing is sent from Scout.</div>
+        <div style="width:420px;background:#fff;border:1px solid #cfcfcf;border-bottom:none;border-radius:8px 8px 0 0;box-shadow:0 -10px 34px rgba(0,0,0,.16);overflow:hidden;display:flex;flex-direction:column">
+          <div style="height:40px;flex:0 0 40px;background:#141414;color:#fff;display:flex;align-items:center;padding:0 14px;font-size:12.5px;font-weight:700">New message<span style="margin-left:auto;display:flex;gap:14px;color:#bbb;font-size:14px"><span>—</span><span>×</span></span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #eee;font-size:12px"><span style="color:#999;width:52px">To</span><span style="background:#f0f0f0;border-radius:4px;padding:3px 9px;font-weight:600;color:#222;font-size:11.5px">Maria Chen · maria@acmesteel.com</span></div>
+          <div style="display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid #eee;font-size:12px"><span style="color:#999;width:52px">Subject</span><span style="font-weight:600;color:#222">Re: PO #4471 — pricing discrepancy</span></div>
+          <div style="padding:14px;font:400 12.5px/1.6 'Public Sans',sans-serif;color:#333">Hi Maria,<br><br>Quick flag on PO #4471 — the revised PO bills $42.50/unit, but our thread on May 3 confirmed $41.00/unit. On 120 units that's a $180 difference.<br><br>Can you confirm the correct price before we proceed?</div>
+          <div style="height:52px;flex:0 0 52px;border-top:1px solid #eee;display:flex;align-items:center;padding:0 14px;gap:10px"><span style="background:#141414;color:#fff;font:700 12px 'Public Sans',sans-serif;padding:9px 22px;border-radius:6px;display:inline-flex;align-items:center;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Send</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#aaa;margin-left:auto">DRAFTED BY SCOUT</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="position:absolute;left:80px;top:3560px;width:2000px;font-family:'Public Sans',sans-serif;color:#141414">
+  <div data-drags-parent="1" style="margin-bottom:16px">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:#222">FEATURE · CHECK-UPS</div>
+    <div style="font-size:26px;font-weight:800;margin-top:4px;letter-spacing:-.01em">Check-ups — its own tab</div>
+    <div style="font-size:13px;color:#4a4a4a;margin-top:4px;max-width:740px">A bottom-nav tab where Scout runs scheduled check-up emails per vendor. Each vendor has a configurable schedule of messages — edit the copy and the repetition / relay timing of every step — plus the contact you're emailing, an on/off state, and an Add-new button.</div>
+  </div>
+  <div style="display:flex;gap:38px;align-items:flex-start">
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">01 · Check-ups tab</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#141414" stroke="none"/></svg><span style="font-weight:800;font-size:14px">Scout</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="padding:15px 16px 8px;display:flex;align-items:flex-end;justify-content:space-between"><div><div style="font-size:18px;font-weight:800;letter-spacing:-.01em">Check-ups</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#9a9a9a;margin-top:2px">3 ACTIVE · BY ORDER</div></div></div>
+        <div style="padding:0 16px 12px"><button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 12.5px 'Public Sans',sans-serif;padding:10px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add check-up</button></div>
+        <div style="flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:10px">
+          <div style="border:1px solid #e7e7e7;border-radius:10px;padding:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-weight:700;font-size:13px">PO #4471</span><span style="display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;color:#141414"><span style="width:26px;height:15px;border-radius:999px;background:#141414;position:relative;display:inline-block"><span style="position:absolute;top:2px;right:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>ON</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:9px"><span style="width:22px;height:22px;border-radius:50%;background:#e6e6e6;flex:0 0 22px;display:flex;align-items:center;justify-content:center;font:700 9px 'Public Sans',sans-serif;color:#666">MC</span><div style="min-width:0"><div style="font-size:11.5px;font-weight:600;line-height:1.1">Maria Chen · Acme Steel</div><div style="font-size:10px;color:#9a9a9a">maria@acmesteel.com</div></div></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#777"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg>Every 3 days · next Jul 1</div>
+          </div>
+          <div style="border:1px solid #e7e7e7;border-radius:10px;padding:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-weight:700;font-size:13px">PO #4472</span><span style="display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;color:#141414"><span style="width:26px;height:15px;border-radius:999px;background:#141414;position:relative;display:inline-block"><span style="position:absolute;top:2px;right:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>ON</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:9px"><span style="width:22px;height:22px;border-radius:50%;background:#e6e6e6;flex:0 0 22px;display:flex;align-items:center;justify-content:center;font:700 9px 'Public Sans',sans-serif;color:#666">RP</span><div style="min-width:0"><div style="font-size:11.5px;font-weight:600;line-height:1.1">Ray Park · Delmar Tooling</div><div style="font-size:10px;color:#9a9a9a">ray@delmartool.com</div></div></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#777"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg>Weekly · next Jul 3</div>
+          </div>
+          <div style="border:1px solid #f0f0f0;border-radius:10px;padding:12px;opacity:.6">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-weight:700;font-size:13px;color:#555">PO #4468</span><span style="display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;color:#9a9a9a"><span style="width:26px;height:15px;border-radius:999px;background:#dcdcdc;position:relative;display:inline-block"><span style="position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>OFF</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:9px"><span style="width:22px;height:22px;border-radius:50%;background:#eee;flex:0 0 22px;display:flex;align-items:center;justify-content:center;font:700 9px 'Public Sans',sans-serif;color:#999">JD</span><div style="min-width:0"><div style="font-size:11.5px;font-weight:600;line-height:1.1;color:#777">Jess Dunn · Vance Components</div><div style="font-size:10px;color:#aaa">jess@vancecomp.com</div></div></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#aaa">Paused</div>
+          </div>
+        </div>
+        <div style="flex:0 0 auto;border-top:1px solid #e6e6e6;display:flex;background:#fff;padding:7px 0"><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7.5L12 12.5l8.7-5M12 12.5V21"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Orders</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 L4 14 h7 l-1 8 9-12 h-7 z"/></svg></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Otto</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="width:34px;height:34px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5V3.5h6v1M8.5 12.5l2 2 4-4"/></svg></span><span style="font:700 10px 'Public Sans',sans-serif;color:#141414">Check-ups</span></div><div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><span style="position:relative;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#6a6a6a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20.5 20.5l-5.2-5.2"/></svg><span style="position:absolute;top:-4px;right:-4px;width:15px;height:15px;border-radius:50%;background:#e0242b;border:1.6px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font:800 9.5px 'Public Sans',sans-serif;line-height:1">!</span></span><span style="font:600 10px 'Public Sans',sans-serif;color:#8a8a8a">Audit</span></div></div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">02 · Order schedule</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">PO #4471</span><span style="margin-left:auto;display:inline-flex;align-items:center;gap:5px;font:600 9.5px 'JetBrains Mono',monospace;color:#141414"><span style="width:26px;height:15px;border-radius:999px;background:#141414;position:relative;display:inline-block"><span style="position:absolute;top:2px;right:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>ON</span></div>
+        <div style="margin:13px 16px 0;border:1px solid #ececec;border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px">
+          <span style="width:28px;height:28px;border-radius:50%;background:#e6e6e6;flex:0 0 28px;display:flex;align-items:center;justify-content:center;font:700 10px 'Public Sans',sans-serif;color:#666">MC</span>
+          <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">PO #4471 <span style="font-weight:500;color:#9a9a9a">· Acme Steel</span></div><div style="font-size:10.5px;color:#9a9a9a">Maria Chen · maria@acmesteel.com</div></div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a">EMAILING</span>
+        </div>
+        <div style="padding:14px 16px 8px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:13px;font-weight:800">Schedule</span><span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#9a9a9a">3 STEPS · EVERY 3 DAYS</span></div>
+        <div style="flex:1;overflow:hidden;padding:0 16px;display:flex;flex-direction:column;gap:9px">
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700"><span style="width:20px;height:20px;border-radius:50%;background:#141414;color:#fff;display:flex;align-items:center;justify-content:center;font:700 10px 'JetBrains Mono',monospace">1</span>Initial check</span><button style="appearance:none;border:1px solid #d4d4d4;background:#fff;border-radius:6px;padding:4px 9px;font:600 10.5px 'Public Sans',sans-serif;cursor:pointer;display:flex;align-items:center;gap:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg>Edit</button></div>
+            <div style="font-size:11px;color:#666;line-height:1.4;margin-top:7px">"Hi Maria — any update on the ship date for PO #4471?"</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3 2"/></svg>SENDS DAY 0</div>
+          </div>
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700"><span style="width:20px;height:20px;border-radius:50%;background:#141414;color:#fff;display:flex;align-items:center;justify-content:center;font:700 10px 'JetBrains Mono',monospace">2</span>Follow-up</span><button style="appearance:none;border:1px solid #d4d4d4;background:#fff;border-radius:6px;padding:4px 9px;font:600 10.5px 'Public Sans',sans-serif;cursor:pointer;display:flex;align-items:center;gap:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg>Edit</button></div>
+            <div style="font-size:11px;color:#666;line-height:1.4;margin-top:7px">"Just following up on my note about PO #4471 — thanks!"</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>+3 DAYS IF NO REPLY</div>
+          </div>
+          <div style="border:1px solid #e7e7e7;border-radius:9px;padding:11px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700"><span style="width:20px;height:20px;border-radius:50%;background:#141414;color:#fff;display:flex;align-items:center;justify-content:center;font:700 10px 'JetBrains Mono',monospace">3</span>Final nudge</span><button style="appearance:none;border:1px solid #d4d4d4;background:#fff;border-radius:6px;padding:4px 9px;font:600 10.5px 'Public Sans',sans-serif;cursor:pointer;display:flex;align-items:center;gap:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10-4-4L4 16z"/><path d="M14 6l4 4"/></svg>Edit</button></div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:9px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a9a9a"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9a9a9a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>+3 DAYS · THEN STOP</div>
+          </div>
+        </div>
+        <div style="flex:0 0 auto;padding:12px 16px;border-top:1px solid #f3f3f3"><button style="appearance:none;width:100%;border:1px dashed #c4c4c4;background:#fff;color:#444;font:600 12px 'Public Sans',sans-serif;padding:10px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add a step</button></div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">03 · Edit message + timing</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Edit · Follow-up</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="flex:1;padding:16px 16px 14px;display:flex;flex-direction:column;overflow:hidden">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin-bottom:6px">MESSAGE</div>
+          <div style="border:1.5px solid #141414;border-radius:8px;padding:11px;font-size:12px;line-height:1.5;color:#222;min-height:88px">Just following up on my note about PO #4471 — any update on the ship date? Thanks!<span style="display:inline-block;width:1px;height:14px;background:#141414;margin-left:1px;vertical-align:middle"></span></div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:5px;padding:3px 7px;color:#555">+ {vendor}</span><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:5px;padding:3px 7px;color:#555">+ {order #}</span><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:5px;padding:3px 7px;color:#555">+ {ship date}</span></div>
+
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:16px 0 6px">REPETITION &amp; RELAY TIMING</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Send this step</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">+3 days <span style="color:#bbb;font-size:13px">▾</span></span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Only if</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">No reply yet <span style="color:#bbb;font-size:13px">▾</span></span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Repeat every</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">3 days <span style="color:#bbb;font-size:13px">▾</span></span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Stop after</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">3 tries <span style="color:#bbb;font-size:13px">▾</span></span></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:9px;margin-top:12px"><button style="appearance:none;flex:0 0 auto;border:1px solid #d4d4d4;background:#fff;color:#444;font:600 12px 'Public Sans',sans-serif;padding:11px 14px;border-radius:7px;cursor:pointer">Cancel</button><button style="appearance:none;flex:1;border:1px solid #141414;background:#141414;color:#fff;font:700 12px 'Public Sans',sans-serif;padding:11px;border-radius:7px;cursor:pointer">Save step</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">04 · Add check-up</p>
+      <div style="width:340px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">New check-up</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="padding:16px 16px 18px;display:flex;flex-direction:column">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin-bottom:6px">VENDOR</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;border:1.5px solid #141414;border-radius:8px;padding:10px 11px"><span style="font-size:13px;font-weight:700">Orbit Packaging</span><span style="color:#bbb;font-size:13px">▾</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:14px 0 6px">WHO YOU'RE EMAILING</div>
+          <div style="display:flex;align-items:center;gap:9px;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="width:26px;height:26px;border-radius:50%;background:#e6e6e6;flex:0 0 26px;display:flex;align-items:center;justify-content:center;font:700 9px 'Public Sans',sans-serif;color:#666">TS</span><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600">Tom Silva</div><div style="font-size:10px;color:#9a9a9a">tom@orbitpack.com</div></div><span style="color:#bbb;font-size:13px">▾</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:14px 0 6px">FIRST MESSAGE</div>
+          <div style="border:1.5px solid #141414;border-radius:8px;padding:10px;font-size:11.5px;line-height:1.45;color:#222">Hi Tom — checking in on the status of our latest order. Any update?</div>
+          <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap"><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:5px;padding:3px 7px;color:#555">+ {vendor}</span><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:5px;padding:3px 7px;color:#555">+ {order #}</span><span style="font:600 9.5px 'JetBrains Mono',monospace;border:1px solid #d4d4d4;border-radius:5px;padding:3px 7px;color:#555">+ {ship date}</span></div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;color:#9a9a9a;margin:16px 0 6px">REPETITION &amp; RELAY TIMING</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Send first message</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">Day 0 <span style="color:#bbb;font-size:13px">▾</span></span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Only if</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">No reply yet <span style="color:#bbb;font-size:13px">▾</span></span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Repeat every</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">Don't repeat <span style="color:#bbb;font-size:13px">▾</span></span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border:1px solid #eee;border-radius:8px;padding:9px 11px"><span style="font-size:12px;color:#444">Stop after</span><span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700">3 tries <span style="color:#bbb;font-size:13px">▾</span></span></div>
+          </div>
+          <button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 13px 'Public Sans',sans-serif;padding:12px;border-radius:7px;cursor:pointer;margin-top:16px">Create &amp; turn on</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:340px">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:#8a8a8a;margin:0 0 10px 2px">05 · Activity (who you're emailing)</p>
+      <div style="width:340px;height:600px;background:#fff;border:1px solid #d8d8d8;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.1);overflow:hidden;display:flex;flex-direction:column;color:#141414">
+        <div style="height:46px;flex:0 0 46px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:9px;padding:0 14px"><span style="color:#999;font-size:18px">‹</span><span style="font-weight:800;font-size:14px">Acme Steel · activity</span><span style="margin-left:auto;color:#bbb;font-size:16px">×</span></div>
+        <div style="margin:13px 16px 0;border:1px solid #ececec;border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px">
+          <span style="width:28px;height:28px;border-radius:50%;background:#e6e6e6;flex:0 0 28px;display:flex;align-items:center;justify-content:center;font:700 10px 'Public Sans',sans-serif;color:#666">MC</span>
+          <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">Maria Chen</div><div style="font-size:10.5px;color:#9a9a9a">maria@acmesteel.com</div></div>
+          <span style="font:600 9px 'JetBrains Mono',monospace;border:1px solid #141414;border-radius:999px;padding:2px 8px">REPLIED</span>
+        </div>
+        <div style="flex:1;overflow:hidden;padding:14px 16px;display:flex;flex-direction:column;gap:0">
+          <div style="display:flex;gap:10px"><div style="display:flex;flex-direction:column;align-items:center;flex:0 0 18px"><span style="width:18px;height:18px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 18px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></span><span style="flex:1;width:1.5px;background:#e2e2e2;margin:2px 0"></span></div><div style="padding-bottom:16px"><div style="font-size:12px;font-weight:700">Initial check sent</div><div style="font-size:10.5px;color:#888;line-height:1.4;margin-top:2px">"Any update on the ship date for PO #4471?"</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#aaa;margin-top:3px">JUN 24 · 9:00 AM</div></div></div>
+          <div style="display:flex;gap:10px"><div style="display:flex;flex-direction:column;align-items:center;flex:0 0 18px"><span style="width:18px;height:18px;border-radius:50%;background:#141414;display:flex;align-items:center;justify-content:center;flex:0 0 18px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg></span><span style="flex:1;width:1.5px;background:#e2e2e2;margin:2px 0"></span></div><div style="padding-bottom:16px"><div style="font-size:12px;font-weight:700">Follow-up sent</div><div style="font-size:10.5px;color:#888;line-height:1.4;margin-top:2px">No reply after 3 days — auto follow-up.</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#aaa;margin-top:3px">JUN 27 · 9:00 AM</div></div></div>
+          <div style="display:flex;gap:10px"><div style="display:flex;flex-direction:column;align-items:center;flex:0 0 18px"><span style="width:18px;height:18px;border-radius:50%;border:1.5px solid #141414;display:flex;align-items:center;justify-content:center;flex:0 0 18px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9 6 9-6"/><rect x="3" y="5" width="18" height="14" rx="2"/></svg></span></div><div><div style="font-size:12px;font-weight:700">Maria replied</div><div style="background:#f4f4f4;border-radius:3px 10px 10px 10px;padding:8px 10px;font-size:11px;line-height:1.45;color:#333;margin-top:5px">"Shipping Jul 2 — one line item was back-ordered."</div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#aaa;margin-top:4px">JUN 27 · 2:14 PM · CHECK PAUSED</div></div></div>
+        </div>
+        <div style="flex:0 0 auto;padding:12px 16px;border-top:1px solid #f3f3f3"><button style="appearance:none;width:100%;border:1px solid #141414;background:#141414;color:#fff;font:700 12.5px 'Public Sans',sans-serif;padding:11px;border-radius:7px;cursor:pointer">Send to Otto-Mode</button></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<sc-if value="{{ showAnnotations }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;left:1880px;top:3600px;width:230px;background:#fef4a8;padding:14px 15px;font-family:'Public Sans',sans-serif;font-size:12.5px;line-height:1.5;color:#3a3320;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(1deg)">
+  <b>Set-and-forget, but transparent.</b> Each step's message and relay timing are editable; the activity timeline shows exactly who was emailed and when, and a reply auto-pauses the check so vendors never get nagged after responding.
+</div>
+<div style="position:absolute;left:1620px;top:2840px;width:230px;background:#fef4a8;padding:14px 15px;font-family:'Public Sans',sans-serif;font-size:12.5px;line-height:1.5;color:#3a3320;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(1deg)">
+  <b>Always on.</b> Scout audits open threads in the background and only interrupts when it finds something — a notification plus a red dot on the Audit tab. Nothing to remember to run.
+</div>
+<div style="position:absolute;left:80px;top:2480px;width:240px;background:#fef4a8;padding:14px 15px;font-family:'Public Sans',sans-serif;font-size:12.5px;line-height:1.5;color:#3a3320;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(-1deg)">
+  <b>Grouped by conversation.</b> Each finding keeps its type icon ($ price, ⏱ time, ▣ item) and severity, and taps through to the exact quotes that conflict.
+</div>
+<div style="position:absolute;left:2440px;top:1690px;width:240px;background:#fef4a8;padding:14px 15px;font-family:'Public Sans',sans-serif;font-size:12.5px;line-height:1.5;color:#3a3320;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(-1deg)">
+  <b>Confirm-first, always.</b> Otto never writes silently — the user reviews, edits inline, or corrects via chat before anything reaches the ERP, then verifies after. Directly answers the PRD risk of blind trust.
+</div>
+<div style="position:absolute;left:1500px;top:1050px;width:240px;background:#fef4a8;padding:14px 15px;font-family:'Public Sans',sans-serif;font-size:12.5px;line-height:1.5;color:#3a3320;box-shadow:0 2px 6px rgba(0,0,0,.18);transform:rotate(1deg)">
+  <b>Why a checklist:</b> SMB users set up at their own pace and feel in control. The unfinished tasks ride along into the Home card as a progress nudge, so onboarding never feels like a dead-end wizard.
+</div>
+</sc-if>
+
+
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#141414"/><g transform="translate(30,30) scale(1.7)" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 L11 11 L8.5 15.5 L13 13 Z" fill="#fff" stroke="none"/></g></svg></template></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1400, &quot;height&quot;: 900 },
+  &quot;showHero&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Wireframe&quot; },
+  &quot;showAnnotations&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Wireframe&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showHero: this.props.showHero ?? true,
+      showAnnotations: this.props.showAnnotations ?? true,
+    };
+  }
+}
+</script>
+</body>
+</html>
