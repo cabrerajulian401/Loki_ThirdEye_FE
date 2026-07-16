@@ -12,7 +12,11 @@ export function createWsGateway({ wsUrl, getToken }) {
   let backoffMs = INITIAL_BACKOFF_MS;
   let disconnected = false;
   let warnedOnce = false;
-  let lastToken = null;
+  // Fallback only — used when no getToken dependency was supplied at all.
+  // Every open() attempt (initial or reconnect) prefers a fresh getToken()
+  // call so a rotated/refreshed token is picked up rather than retrying
+  // forever with whatever was current at the original connect() call.
+  let explicitToken = null;
 
   function dispatch(type, data) {
     const set = handlers.get(type);
@@ -46,7 +50,7 @@ export function createWsGateway({ wsUrl, getToken }) {
       return;
     }
 
-    const token = lastToken;
+    const token = typeof getToken === "function" ? getToken() : explicitToken;
     const url = token ? `${wsUrl}?token=${encodeURIComponent(token)}` : wsUrl;
 
     try {
@@ -79,10 +83,30 @@ export function createWsGateway({ wsUrl, getToken }) {
     };
   }
 
+  // Shared teardown for both connect() (replacing a live connection) and
+  // disconnect() (stopping for good). Nulls the close handler first so
+  // closing the old socket never fires another reconnect.
+  function closeSocket() {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
+    if (socket) {
+      try {
+        socket.onclose = null;
+        socket.onerror = null;
+        socket.onmessage = null;
+        socket.close();
+      } catch (e) {
+        // best-effort close
+      }
+      socket = null;
+    }
+  }
+
   function connect(token) {
     disconnected = false;
-    lastToken = token ?? (getToken ? getToken() : null);
+    explicitToken = token ?? null;
     backoffMs = INITIAL_BACKOFF_MS;
+    closeSocket(); // no duplicate live connections if connect() is called again
     open();
   }
 
@@ -93,17 +117,7 @@ export function createWsGateway({ wsUrl, getToken }) {
 
   function disconnect() {
     disconnected = true;
-    clearTimeout(reconnectTimer);
-    reconnectTimer = null;
-    if (socket) {
-      try {
-        socket.onclose = null;
-        socket.close();
-      } catch (e) {
-        // best-effort close
-      }
-      socket = null;
-    }
+    closeSocket();
   }
 
   return { connect, on, disconnect };

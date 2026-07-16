@@ -66,3 +66,59 @@ it("setFlowOn PATCHes every pending row of the flow", async () => {
   expect(patched).toEqual(["https://api.test/checkups/r1", "https://api.test/checkups/r2"]);
   expect(JSON.parse(fetch.mock.calls[1][1].body)).toEqual({ status: "paused" });
 });
+
+it("createFlow returns the flow derived from the POST response, cadence from sendDate gaps", async () => {
+  fetch.mockReturnValue(jsonRes(201, { flowId: "f1", checkups: [
+    { id: "r1", flowId: "f1", companyName: "Orbit Packaging", emailAddress: "tom@orbitpack.com",
+      status: "pending", sendDate: "2026-07-01T00:00:00.000Z" },
+    { id: "r2", flowId: "f1", companyName: "Orbit Packaging", emailAddress: "tom@orbitpack.com",
+      status: "pending", sendDate: "2026-07-04T00:00:00.000Z" }] }));
+  const { checkupRepo } = createHttpRepos(makeClient());
+  const r = await checkupRepo.createFlow({
+    companyName: "Orbit Packaging", emailAddress: "tom@orbitpack.com", contactName: "Tom Silva",
+    message: "Hi Tom — checking in on the status of our latest order. Any update?",
+    conversationId: "conv-4459", send: "day0", cond: "noreply", repeat: "3d", stop: "3" });
+  expect(r.ok).toBe(true);
+  expect(r.data.flow).toMatchObject({ flowId: "f1", on: true, cadence: "Every 3 days" });
+});
+
+it("setFlowOn returns the flow reflecting the applied change", async () => {
+  fetch
+    .mockReturnValueOnce(jsonRes(200, { checkups: [
+      { id: "r1", flowId: "f9", companyName: "Acme", emailAddress: "a@acme.com",
+        status: "pending", sendDate: "2026-07-01T00:00:00.000Z" },
+      { id: "r2", flowId: "f9", companyName: "Acme", emailAddress: "a@acme.com",
+        status: "pending", sendDate: "2026-07-04T00:00:00.000Z" }] }))
+    .mockReturnValue(jsonRes(200, {}));
+  const { checkupRepo } = createHttpRepos(makeClient());
+  const r = await checkupRepo.setFlowOn("f9", false);
+  expect(r.ok).toBe(true);
+  expect(r.data.flow).toMatchObject({ flowId: "f9", on: false, cadence: "Every 3 days" });
+});
+
+it("groupRowsToFlows (via listFlows) derives One-time cadence for a single-row flow", async () => {
+  fetch.mockReturnValue(jsonRes(200, { checkups: [
+    { id: "r1", flowId: "f5", companyName: "Solo Co", emailAddress: "solo@co.com",
+      status: "pending", sendDate: "2026-07-01T00:00:00.000Z" }] }));
+  const { checkupRepo } = createHttpRepos(makeClient());
+  const r = await checkupRepo.listFlows();
+  expect(r.data.flows[0]).toMatchObject({ flowId: "f5", cadence: "One-time", on: true });
+});
+
+it("addStep cancels pending rows then returns the new flow and its stepIndex", async () => {
+  fetch
+    .mockReturnValueOnce(jsonRes(200, { checkups: [
+      { id: "r1", flowId: "f2", companyName: "Beta LLC", emailAddress: "beta@llc.com",
+        conversationId: "conv-1", status: "pending", sendDate: "2026-07-01T00:00:00.000Z" }] }))
+    .mockReturnValueOnce(jsonRes(200, {}))
+    .mockReturnValue(jsonRes(201, { flowId: "f2-new", checkups: [
+      { id: "r2", flowId: "f2-new", companyName: "Beta LLC", emailAddress: "beta@llc.com",
+        status: "pending", sendDate: "2026-07-05T00:00:00.000Z" }] }));
+  const { checkupRepo } = createHttpRepos(makeClient());
+  const r = await checkupRepo.addStep("f2");
+  expect(r.ok).toBe(true);
+  expect(r.data.flow.flowId).toBe("f2-new");
+  expect(r.data.stepIndex).toBe(0);
+  expect(fetch.mock.calls[1][0]).toBe("https://api.test/checkups/r1");
+  expect(JSON.parse(fetch.mock.calls[1][1].body)).toEqual({ status: "cancelled" });
+});

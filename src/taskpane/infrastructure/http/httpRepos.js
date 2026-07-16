@@ -1,6 +1,21 @@
 import { ok, err, CODES } from "../../application/result";
 
 const NEW_STEP_DEFAULTS = { message: "", send: "+3", cond: "noreply", repeat: "none", stop: "1" };
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+
+// The backend stores only repeat_flow (message count) + each row's computed
+// sendDate — never a repeatEveryDays interval — so cadence must be derived
+// from the gap between consecutive sendDates, not read off a field.
+function daysBetween(a, b) {
+  return Math.round((new Date(b).getTime() - new Date(a).getTime()) / MS_PER_DAY);
+}
+
+function cadenceFromRows(rows) {
+  if (!rows || rows.length < 2) return "One-time";
+  const sorted = [...rows].sort((a, b) => new Date(a.sendDate) - new Date(b.sendDate));
+  const gap = daysBetween(sorted[0].sendDate, sorted[1].sendDate);
+  return gap === 7 ? "Weekly" : `Every ${gap} days`;
+}
 
 function groupRowsToFlows(rows) {
   const groups = new Map();
@@ -15,8 +30,10 @@ function groupRowsToFlows(rows) {
       companyName: first.companyName,
       emailAddress: first.emailAddress,
       contactName: first.contactName ?? "",
+      // Never emit "Paused" here — that's flowCadenceLabel's job (domain rule
+      // renders "Paused" when !on); this is always the real cadence label.
       on: flowRows.some((r) => r.status === "pending"),
-      cadence: first.repeatEveryDays ? `Every ${first.repeatEveryDays} days` : "Paused",
+      cadence: cadenceFromRows(flowRows),
       steps: [],
     };
   });
@@ -93,8 +110,24 @@ function createCheckupRepo(client) {
     return ok({ flows: groupRowsToFlows(rows) });
   }
 
+  // GET /checkups -> groupRowsToFlows -> find by flowId. Returns the flow
+  // object or null (never a Result) — callers decide the fallback.
+  async function fetchFlow(flowId) {
+    const res = await client.get("/checkups");
+    if (!res.ok) return null;
+    const rows = (res.data && res.data.checkups) || [];
+    return groupRowsToFlows(rows).find((f) => f.flowId === flowId) || null;
+  }
+
   async function createFlow(input) {
-    return client.post("/checkups", stepToCadence(input));
+    const res = await client.post("/checkups", stepToCadence(input));
+    if (!res.ok) return res;
+    const body = res.data || {};
+    const rows = body.checkups || [];
+    const flow =
+      (rows.length ? groupRowsToFlows(rows)[0] : null) ||
+      (await fetchFlow(body.flowId)) || { flowId: body.flowId, steps: [] };
+    return ok({ flow });
   }
 
   async function setFlowOn(flowId, on) {
@@ -108,7 +141,16 @@ function createCheckupRepo(client) {
       const res = await client.patch(`/checkups/${row.id}`, { status: newStatus });
       if (!res.ok) return res;
     }
-    return ok({ flowId, on });
+    // Derived from the rows already fetched above (patched in-memory to
+    // reflect the status change just applied) rather than a fresh fetchFlow()
+    // round trip — this keeps setFlowOn a single GET + N PATCH call, with no
+    // extra GET whose ordering/count a caller might depend on.
+    const patchedIds = new Set(toPatch.map((r) => r.id));
+    const updatedFlowRows = rows
+      .filter((r) => r.flowId === flowId)
+      .map((r) => (patchedIds.has(r.id) ? { ...r, status: newStatus } : r));
+    const flow = groupRowsToFlows(updatedFlowRows)[0] || { flowId, on, steps: [] };
+    return ok({ flow });
   }
 
   // Cancels remaining pending rows of a flow and returns the flow's rows
@@ -137,7 +179,13 @@ function createCheckupRepo(client) {
     const cancelRes = await cancelPendingRowsOfFlow(flowId);
     if (!cancelRes.ok) return cancelRes;
     const context = cancelRes.data.rows[0] || {};
-    return createFlow({ ...context, ...NEW_STEP_DEFAULTS });
+    const createRes = await createFlow({ ...context, ...NEW_STEP_DEFAULTS });
+    if (!createRes.ok) return createRes;
+    // Seam: individual step detail isn't reconstructable from backend rows
+    // until a GET /otto-style listing exists for checkup steps (spec §11.4
+    // seam) — http mode's flow.steps is always [], so the freshly created
+    // flow's one step lives at index 0.
+    return ok({ flow: createRes.data.flow, stepIndex: createRes.data.flow.steps.length });
   }
 
   return { listFlows, createFlow, setFlowOn, saveStep, addStep };
