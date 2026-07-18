@@ -108,4 +108,12 @@ src/taskpane/
 
 ---
 
+## 📮 Addendum — 2026-07-18: both halves are deployed
+
+- **FE hosted:** Azure Static Web Apps → https://proud-mud-0beae3510.7.azurestaticapps.net (auto-deploys from `main` via GitHub Actions). Two deploy fixes were needed: `output_location` "build"→"dist", and an emitted root `index.html` (SWA default-file requirement). `urlProd` now rewrites the hosted `manifest.xml` correctly — sideload from `<site>/manifest.xml`, no dev server needed.
+- **BE deployed:** Overseer at https://overseer.jollyfield-8dc50d6e.centralus.azurecontainerapps.io (Azure Container Apps). Wired into `app.config.js` (apiBaseUrl/wsUrl) + manifest `<AppDomains>`.
+- **Live contract smoke (11/12 pass):** orders/checkups/discrepancies reads + auth gate + status-filter 400 + full checkup lifecycle (201 server-minted ids, smuggled id ignored, paused↔pending, terminal-409) + otto 502-no-leak + sync 202 all match `BE_Docs` exactly. Test rows were left in the terminal `cancelled` state (flowId `955ca3ac…`, company "FE Smoke Test Co") — harmless, delete at will.
+- **New finding → backend fast-follow:** `GET /ws` only authenticates via the `Authorization` header, which **browser WebSocket clients cannot send** — upgrade confirmed working (101) with the header, 401 without, and `?token=` is rejected today. Overseer should accept the token as a `?token=` query param (the FE's wsGateway already sends it) or drop ws auth for single-user MVP. Until then, realtime events won't reach the FE in http mode.
+- **dataSource stays `"mock"`** deliberately: flipping needs (a) real Graph tokens — Azure AD registration + `auth.mode: "sso"` — else every Graph-backed call 502s and orders stay empty, and (b) the gap-#9 render mapping. Those two plus the ws token param are now the complete flip checklist.
+
 *Written 2026-07-16 by the build controller (Claude, Fable 5) covering `scout-fe` commits `0cf54c58e…00d6885fe` (21 commits: 18 plan tasks + fix rounds + repo hygiene), built from `docs/superpowers/plans/2026-07-16-scout-addin-frontend.md` via subagent-driven development (implementer + independent reviewer per task; pipeline + combined dispatches for tasks 12-17 per Julian's speed request).*
