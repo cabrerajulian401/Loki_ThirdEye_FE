@@ -1,8 +1,8 @@
 export const appConfig = {
-  // 'mock' | 'http' — mock stays the default until Overseer's on-behalf-of
-  // exchange lands (until then Graph-backed reads 502 and orders stay empty).
-  // Flip to "http" to hit the live backend.
-  dataSource: "mock",
+  // 'mock' | 'http' — http hits the live Overseer (AUTH_MODE=aad: real JWT
+  // validation + on-behalf-of Graph exchange). Set back to "mock" for
+  // offline/demo mode with seed data.
+  dataSource: "http",
   apiBaseUrl: "https://overseer.jollyfield-8dc50d6e.centralus.azurecontainerapps.io", // Overseer on Azure Container Apps
   wsUrl: "wss://overseer.jollyfield-8dc50d6e.centralus.azurecontainerapps.io/ws",
   // 'sso' tries OfficeRuntime.auth.getAccessToken (silent for signed-in Outlook
