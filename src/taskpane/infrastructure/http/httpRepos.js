@@ -1,4 +1,5 @@
 import { ok, err, CODES } from "../../application/result";
+import { mapOrderRow, mapDiscrepancyRow, mapDestinations, checkupFlowExtras } from "./mappers";
 
 const NEW_STEP_DEFAULTS = { message: "", send: "+3", cond: "noreply", repeat: "none", stop: "1" };
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -34,6 +35,9 @@ function groupRowsToFlows(rows) {
       // renders "Paused" when !on); this is always the real cadence label.
       on: flowRows.some((r) => r.status === "pending"),
       cadence: cadenceFromRows(flowRows),
+      // Gap #9: poNumber/initials/next — see mappers.js's checkupFlowExtras
+      // for what's derived vs. genuinely missing from the BE row.
+      ...checkupFlowExtras(flowRows),
       steps: [],
     };
   });
@@ -88,7 +92,13 @@ function createOrderRepo(client) {
     if (args && args.status) params.push(`status=${encodeURIComponent(args.status)}`);
     if (args && args.cursor) params.push(`cursor=${encodeURIComponent(args.cursor)}`);
     const qs = params.length ? `?${params.join("&")}` : "";
-    return client.get(`/orders${qs}`);
+    const res = await client.get(`/orders${qs}`);
+    if (!res.ok) return res;
+    const orders = (res.data && res.data.orders) || [];
+    return ok({
+      orders: orders.map(mapOrderRow),
+      nextCursor: (res.data && res.data.nextCursor) ?? null,
+    });
   }
 
   async function startSync() {
@@ -194,13 +204,16 @@ function createCheckupRepo(client) {
 function createDiscrepancyRepo(client) {
   async function list(args = {}) {
     const qs = args && args.status ? `?status=${encodeURIComponent(args.status)}` : "";
-    return client.get(`/discrepancies${qs}`);
+    const res = await client.get(`/discrepancies${qs}`);
+    if (!res.ok) return res;
+    const discrepancies = (res.data && res.data.discrepancies) || [];
+    return ok({ discrepancies: discrepancies.map(mapDiscrepancyRow) });
   }
 
   async function updateStatus(id, status) {
     const res = await client.patch(`/discrepancies/${id}`, { status });
     if (!res.ok) return res;
-    return ok({ discrepancy: res.data });
+    return ok({ discrepancy: mapDiscrepancyRow(res.data || {}) });
   }
 
   return { list, updateStatus };
@@ -208,7 +221,10 @@ function createDiscrepancyRepo(client) {
 
 function createOttoRepo(client) {
   async function scan(args = {}) {
-    return client.post("/otto/scans", args);
+    const res = await client.post("/otto/scans", args);
+    if (!res.ok) return res;
+    const data = res.data || {};
+    return ok({ ...data, destinations: mapDestinations(data.destinations) });
   }
 
   async function record(scanId, args) {
