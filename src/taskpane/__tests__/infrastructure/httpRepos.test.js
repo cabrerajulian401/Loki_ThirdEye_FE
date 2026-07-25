@@ -122,3 +122,60 @@ it("addStep cancels pending rows then returns the new flow and its stepIndex", a
   expect(fetch.mock.calls[1][0]).toBe("https://api.test/checkups/r1");
   expect(JSON.parse(fetch.mock.calls[1][1].body)).toEqual({ status: "cancelled" });
 });
+
+// Gap #9: http render-readiness — each repo below wires the row->view-model
+// mappers (src/taskpane/infrastructure/http/mappers.js) into its read path,
+// using BE-doc-shaped fixture rows (not seed.js rows) as the mock fetch body.
+
+it("listFlows returns flows with poNumber/initials/next added by the mapper", async () => {
+  fetch.mockReturnValue(jsonRes(200, { checkups: [
+    { id: "r1", flowId: "f5", companyName: "Orbit Packaging", emailAddress: "tom@orbitpack.com",
+      contactName: "Tom Silva", status: "pending", sendDate: "2026-07-05T00:00:00.000Z" },
+    { id: "r2", flowId: "f5", companyName: "Orbit Packaging", emailAddress: "tom@orbitpack.com",
+      contactName: "Tom Silva", status: "pending", sendDate: "2026-07-01T00:00:00.000Z" }] }));
+  const { checkupRepo } = createHttpRepos(makeClient());
+  const r = await checkupRepo.listFlows();
+  expect(r.data.flows[0]).toMatchObject({ flowId: "f5", initials: "TS", next: "Jul 1", poNumber: "" });
+});
+
+it("orderRepo.list maps rows to seed-shaped view models (timingLine/lastMessenger)", async () => {
+  fetch.mockReturnValue(jsonRes(200, { orders: [
+    { poNumber: "PO #4472", company: "Delmar Tooling", status: "delayed",
+      originalEstDate: "2026-06-28", currentEstDate: "2026-07-02", conversationId: "conv-4472" }],
+    nextCursor: null }));
+  const { orderRepo } = createHttpRepos(makeClient());
+  const r = await orderRepo.list();
+  expect(r.ok).toBe(true);
+  expect(r.data.orders[0]).toMatchObject({
+    poNumber: "PO #4472", timingLine: "Est. Jun 28 → Jul 2", lastMessenger: "" });
+});
+
+it("discrepancyRepo.list maps rows to seed-shaped view models (threadLabel/initials)", async () => {
+  fetch.mockReturnValue(jsonRes(200, { discrepancies: [
+    { id: "d1", type: "price", status: "open", priority: "HIGH", title: "Price changed",
+      company: "Acme Steel", poNumber: "PO #4471", contactName: "Maria Chen",
+      detail: { leftLabel: "QUOTED", left: "$41.00", rightLabel: "BILLED", right: "$42.50", impact: "+$1.50/unit" },
+      quotes: [] }] }));
+  const { discrepancyRepo } = createHttpRepos(makeClient());
+  const r = await discrepancyRepo.list();
+  expect(r.data.discrepancies[0]).toMatchObject({
+    threadLabel: "PO #4471 · ACME STEEL", initials: "MC", contactEmail: "", draftReply: { subject: "", body: "" } });
+});
+
+it("discrepancyRepo.updateStatus maps the returned row too", async () => {
+  fetch.mockReturnValue(jsonRes(200, { id: "d1", company: "Acme Steel", poNumber: "PO #4471",
+    contactName: "Maria Chen", status: "resolved" }));
+  const { discrepancyRepo } = createHttpRepos(makeClient());
+  const r = await discrepancyRepo.updateStatus("d1", "resolved");
+  expect(r.data.discrepancy).toMatchObject({ threadLabel: "PO #4471 · ACME STEEL", initials: "MC" });
+});
+
+it("ottoRepo.scan maps destinations, first-ranked as best match", async () => {
+  fetch.mockReturnValue(jsonRes(200, { scanId: "scan-1", extractedFields: {}, destinations: [
+    { id: "0", name: "Acme Steel — 2026 POs.xlsx" },
+    { id: "1", name: "Q3 Procurement Tracker.xlsx" }] }));
+  const { ottoRepo } = createHttpRepos(makeClient());
+  const r = await ottoRepo.scan({ messageId: "m1", conversationId: "c1" });
+  expect(r.data.destinations[0]).toMatchObject({ isBestMatch: true, subtitle: "", matchNote: "" });
+  expect(r.data.destinations[1].isBestMatch).toBe(false);
+});

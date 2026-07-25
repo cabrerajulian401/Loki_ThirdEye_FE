@@ -3,6 +3,7 @@ import { timingLine } from "../../domain/rules/timingLine";
 import { statusLabel, pillVariant } from "../../domain/rules/orderStatus";
 import { checklistProgress } from "../../domain/rules/checklistProgress";
 import { flowCadenceLabel, flowInitials } from "../../domain/rules/checkupFlows";
+import { orderTimingLine } from "../../domain/rules/orderTimingLine";
 
 describe("checkupTransitions", () => {
   it.each([
@@ -59,4 +60,35 @@ describe("checkupFlows", () => {
     expect(flowCadenceLabel({ on: false, cadence: "Every 3 days" })).toBe("Paused");
   });
   it("initials", () => expect(flowInitials("Maria Chen")).toBe("MC"));
+});
+
+// Gap #9: http mode gets order rows with raw status + estimate dates, not a
+// formatted display line — this rule derives the seed-shaped `timingLine`
+// string (dc.html's SUPPLIERS HOME cards) the same way checkups' timingLine
+// derives a step's display line from its cadence fields.
+describe("orderTimingLine", () => {
+  it("delayed: original and current estimates differ -> arrow form", () =>
+    expect(orderTimingLine({ status: "delayed", originalEstDate: "2026-06-28", currentEstDate: "2026-07-02" })).toBe(
+      "Est. Jun 28 → Jul 2"
+    ));
+  it("on-time: single current estimate, no arrow", () =>
+    expect(orderTimingLine({ status: "on-time", currentEstDate: "2026-07-02" })).toBe("Est. Jul 2"));
+  it("quote-pending: awaiting-quote suffix", () =>
+    expect(orderTimingLine({ status: "quote-pending", currentEstDate: "2026-07-08" })).toBe(
+      "Est. Jul 8 · awaiting quote"
+    ));
+  it("delivered: delivered wording off currentEstDate", () =>
+    expect(orderTimingLine({ status: "delivered", currentEstDate: "2026-06-24" })).toBe("Delivered Jun 24"));
+  it("original equal to current collapses to the single-date form", () =>
+    expect(orderTimingLine({ status: "delayed", originalEstDate: "2026-07-02", currentEstDate: "2026-07-02" })).toBe(
+      "Est. Jul 2"
+    ));
+  it("missing currentEstDate degrades to empty string rather than crashing", () =>
+    expect(orderTimingLine({ status: "on-time" })).toBe(""));
+  it("quote-pending with no date falls back to a generic label", () =>
+    expect(orderTimingLine({ status: "quote-pending" })).toBe("Awaiting quote"));
+  it("delivered with no date degrades to empty string", () =>
+    expect(orderTimingLine({ status: "delivered" })).toBe(""));
+  it("unknown status with no dates degrades to empty string (never throws)", () =>
+    expect(orderTimingLine({})).toBe(""));
 });

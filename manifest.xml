@@ -126,6 +126,19 @@
           <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
         </bt:LongStrings>
       </Resources>
+      <WebApplicationInfo>
+        <Id>87c43ea2-88ae-4034-acf1-da843b626893</Id>
+        <Resource>api://localhost:3000/87c43ea2-88ae-4034-acf1-da843b626893</Resource>
+        <Scopes>
+          <Scope>access_as_user</Scope>
+          <Scope>Mail.Read</Scope>
+          <Scope>Mail.Send</Scope>
+          <Scope>User.Read</Scope>
+          <Scope>openid</Scope>
+          <Scope>profile</Scope>
+          <Scope>offline_access</Scope>
+        </Scopes>
+      </WebApplicationInfo>
     </VersionOverrides>
   </VersionOverrides>
 </OfficeApp>

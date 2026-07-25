@@ -61,7 +61,14 @@ export function createOfficeAuthService({ clientId, tenantId, fallback }) {
       if (typeof OfficeRuntime === "undefined" || !OfficeRuntime.auth) {
         throw new Error("OfficeRuntime.auth is not available");
       }
-      const token = await OfficeRuntime.auth.getAccessToken({ allowSignInPrompt: true });
+      // allowConsentPrompt raises Microsoft's one-time permission dialog on
+      // first run; forMSGraphAccess marks the token for Overseer's
+      // on-behalf-of Graph exchange (omit it and consent errors surface late).
+      const token = await OfficeRuntime.auth.getAccessToken({
+        allowSignInPrompt: true,
+        allowConsentPrompt: true,
+        forMSGraphAccess: true,
+      });
       ssoToken = token;
       return ok({ user: { name: "Microsoft account" }, token });
     } catch (e) {
