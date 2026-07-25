@@ -78,7 +78,13 @@ module.exports = async (env, options) => {
               if (dev) {
                 return content;
               } else {
-                return content.toString().replace(new RegExp(urlDev, "g"), urlProd);
+                // WebApplicationInfo's Resource uses the api:// scheme, which the
+                // https:// rewrite below can't match — both identifier URIs are
+                // registered on the Azure AD app.
+                return content
+                  .toString()
+                  .replace(new RegExp(urlDev, "g"), urlProd)
+                  .replace(/api:\/\/localhost:3000\//g, "api://proud-mud-0beae3510.7.azurestaticapps.net/");
               }
             },
           },
