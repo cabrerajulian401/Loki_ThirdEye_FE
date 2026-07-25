@@ -102,6 +102,17 @@ module.exports = async (env, options) => {
         template: "./src/index.html",
         chunks: [],
       }),
+      // Static pages the store listing and manifest SupportUrl point at.
+      new HtmlWebpackPlugin({
+        filename: "support.html",
+        template: "./src/pages/support.html",
+        chunks: [],
+      }),
+      new HtmlWebpackPlugin({
+        filename: "privacy.html",
+        template: "./src/pages/privacy.html",
+        chunks: [],
+      }),
       new webpack.ProvidePlugin({
         Promise: ["es6-promise", "Promise"],
       }),

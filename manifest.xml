@@ -2,22 +2,24 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0" xsi:type="MailApp">
   <Id>f55589cd-d782-421d-ae75-c73740233ad1</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>Contoso</ProviderName>
+  <ProviderName>ThirdEye</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Scout"/>
-  <Description DefaultValue="A template to get started."/>
+  <Description DefaultValue="Scout keeps purchase orders on track from inside Outlook: live order tracking, automated vendor check-ups, thread audits that flag discrepancies, and Otto — an AI assistant that records confirmed order data to your ERP."/>
   <IconUrl DefaultValue="https://localhost:3000/assets/icon-64.png"/>
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-128.png"/>
-  <SupportUrl DefaultValue="https://www.contoso.com/help"/>
+  <SupportUrl DefaultValue="https://localhost:3000/support.html"/>
   <AppDomains>
     <AppDomain>https://overseer.jollyfield-8dc50d6e.centralus.azurecontainerapps.io</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
   </Hosts>
+  <!-- 1.8 keeps store validation off legacy webviews (Outlook 2013-2019
+       perpetual) that can't run a React 18 pane; all M365 clients qualify. -->
   <Requirements>
     <Sets>
-      <Set Name="Mailbox" MinVersion="1.1"/>
+      <Set Name="Mailbox" MinVersion="1.8"/>
     </Sets>
   </Requirements>
   <FormSettings>
@@ -35,7 +37,7 @@
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
     <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
       <Requirements>
-        <bt:Sets DefaultMinVersion="1.3">
+        <bt:Sets DefaultMinVersion="1.8">
           <bt:Set Name="Mailbox"/>
         </bt:Sets>
       </Requirements>
@@ -85,21 +87,6 @@
                       <SourceLocation resid="Taskpane.Url"/>
                     </Action>
                   </Control>
-                  <Control xsi:type="Button" id="ActionButton">
-                    <Label resid="ActionButton.Label"/>
-                    <Supertip>
-                      <Title resid="ActionButton.Label"/>
-                      <Description resid="ActionButton.Tooltip"/>
-                    </Supertip>
-                    <Icon>
-                      <bt:Image size="16" resid="Icon.16x16"/>
-                      <bt:Image size="32" resid="Icon.32x32"/>
-                      <bt:Image size="80" resid="Icon.80x80"/>
-                    </Icon>
-                    <Action xsi:type="ExecuteFunction">
-                      <FunctionName>action</FunctionName>
-                    </Action>
-                  </Control>
                 </Group>
               </OfficeTab>
             </ExtensionPoint>
@@ -119,11 +106,9 @@
         <bt:ShortStrings>
           <bt:String id="GroupLabel" DefaultValue="Scout"/>
           <bt:String id="TaskpaneButton.Label" DefaultValue="Open Scout"/>
-          <bt:String id="ActionButton.Label" DefaultValue="Perform an action"/>
         </bt:ShortStrings>
         <bt:LongStrings>
           <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Opens Scout — orders, Otto-Mode, check-ups and thread audit. Pin it to keep it open across emails."/>
-          <bt:String id="ActionButton.Tooltip" DefaultValue="Perform an action when clicked."/>
         </bt:LongStrings>
       </Resources>
       <WebApplicationInfo>
