@@ -68,7 +68,8 @@ export function mapDiscrepancyRow(row = {}) {
 // back to "" when a row doesn't carry them. isBestMatch is a pure position
 // rule per the brief: destinations arrive ranked, first-ranked is the best
 // match — no LLM-authored flag needed.
-export function mapDestinationRow(row, index) {
+export function mapDestinationRow(row = {}, index) {
+  row = row || {};
   return {
     ...row,
     subtitle: row.subtitle ?? "",

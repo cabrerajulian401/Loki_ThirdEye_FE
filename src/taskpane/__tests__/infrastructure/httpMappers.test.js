@@ -118,6 +118,11 @@ describe("mapDestinations (Otto scan destinations, Otto.md)", () => {
     expect(mapDestinations([])).toEqual([]);
     expect(mapDestinations(undefined)).toEqual([]);
   });
+
+  it("never throws on a missing or null row (same invariant as the other mappers)", () => {
+    expect(mapDestinationRow(undefined, 0)).toEqual({ subtitle: "", isBestMatch: true, matchNote: "" });
+    expect(mapDestinations([null])).toEqual([{ subtitle: "", isBestMatch: true, matchNote: "" }]);
+  });
 });
 
 describe("checkupFlowExtras (Checkups.md rows -> flow extras)", () => {
